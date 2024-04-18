@@ -4,13 +4,11 @@ import functions
 
 
 mission_type = ["Search and Destroy, Rescue Operation, Launch ICBM"]
-# turn these into dictionary
-reinforcements = 5
-current_hp = 100
-current_ammo = 100
+
+stats = {"reinforcements": 5, "current_hp": 100, "current_ammo": 100}
 
 
-while reinforcements != 0:
+while stats['reinforcements'] != 0:
     print("Welcome Helldiver! Choose in what way you want to save the world today!")
     for mission in mission_type:
         print(mission)
@@ -25,7 +23,7 @@ while reinforcements != 0:
     if obj_explore.lower() == "objective":
         print("You head to the objective.")
 
-        if functions.event_roll() == 1:
+        if functions.event_roll() == "normal_bug_spawn":
             print("A swarm of Terminids crawl from the sand!")
             fight_flight = input("Do you bravely exterminate the vermin for liberty, "
                                  "or run away like a coward deserter?\n"
@@ -35,28 +33,28 @@ while reinforcements != 0:
             if fight_flight == "fight":
                 print("You pull out your trusty rifle and proceed to dispense liberty to the freedom-hating Terminids!")
                 lost_ammo = functions.ammo_loss()
-                if functions.death_prob(current_hp) == 1:
-                    reinforcements -= 1
-                    print(f"Helldiver down! Sending down reinforcements! Orbital has {reinforcements} Helldivers left!"
-                          f" Continue the fight for liberty!")
+                if functions.death_prob(stats["current_hp"]) == 1:
+                    stats["reinforcements"] -= 1
+                    print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']} "
+                          f"Helldivers left! Continue the fight for liberty!")
                 dodge = functions.roll_d10()
                 if dodge == 1:
-                    current_hp = current_hp
+                    stats['current_hp'] = stats['current_hp']
                 else:
-                    current_hp -= functions.hp_loss()
-                current_ammo -= lost_ammo
+                    stats['current_hp'] -= functions.hp_loss()
+                stats['current_ammo'] -= lost_ammo
                 print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
-                      f" {current_ammo} ammunition and {current_hp} health.")
+                      f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
             else:
                 print("You decide to run like a dishonorable deserter, disappointing Freedom and Liberty both!")
-                if functions.death_prob(current_hp) == 1:
-                    reinforcements -= 1
+                if functions.death_prob(stats['current_hp']) == 1:
+                    stats['reinforcements'] -= 1
                     print(f"The swarm of vermin gave chase and didn't relent, they caught you and killed you! "
                           f"Helldiver down! Sending down reinforcements!\n"
-                          f"Orbital has {reinforcements} Helldivers left!"
+                          f"Orbital has {stats['reinforcements']} Helldivers left!"
                           " Continue the fight for liberty!")
 
-        elif functions.event_roll() == 2:
+        elif functions.event_roll() == "hive_spawn":
             print("What's that, you came across a Terminid hive! Do you eradicate them all, or proceed to the"
                   "objective by using advanced stealth evasion tactics?")
             kill_evade = input("Destroy, or evade? ")
