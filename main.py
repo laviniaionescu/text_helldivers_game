@@ -3,7 +3,7 @@ import random
 import functions
 
 
-mission_type = ["Search and Destroy, Rescue Operation, Launch ICBM"]
+mission_type = ["1. Search and Destroy", "2. Rescue Operation", "3. Launch ICBM"]
 
 stats = {"reinforcements": 5, "current_hp": 100, "current_ammo": 100}
 
@@ -19,8 +19,13 @@ while stats['reinforcements'] != 0:
     print("You dropped in on the battlefield!")
     obj_explore = input("Do you want to go to the objective, or explore? ")
     while obj_explore.lower() not in ("objective", "explore"):
-        obj_explore = input("Do you want to go to the objective, or explore? ")
-    if obj_explore.lower() == "objective":
+        obj_explore = input("Time is Liberty, Helldiver! Do you want to go to the objective, or explore? ")
+
+########################################
+    if obj_explore.lower() == "explore":
+        print("You start exploring the area.")
+########################################
+    else:
         print("You head to the objective.")
 
         if functions.event_roll() == "normal_bug_spawn":
@@ -32,23 +37,30 @@ while stats['reinforcements'] != 0:
                 fight_flight = input("This is not the time to freeze, Helldiver! Fight or flight!? ")
             if fight_flight == "fight":
                 print("You pull out your trusty rifle and proceed to dispense liberty to the freedom-hating Terminids!")
-                lost_ammo = functions.ammo_loss()
+
+                # you lose ammo and hp fighting them
+                functions.decrease_stats(stats)
+
+                # if their hp is low enough, they can die in the rest of the fight
                 if functions.death_prob(stats["current_hp"]) == 1:
                     stats["reinforcements"] -= 1
                     print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']} "
                           f"Helldivers left! Continue the fight for liberty!")
-                dodge = functions.roll_d10()
-                if dodge == 1:
-                    stats['current_hp'] = stats['current_hp']
-                else:
-                    stats['current_hp'] -= functions.hp_loss()
-                stats['current_ammo'] -= lost_ammo
+                    # if they die, the hp is reset
+                    stats['current_hp'] = 100
+                    # they lose ammo and hp again
+                    functions.decrease_stats(stats)
+                    print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
+                          f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
+
+                # they don't die, only take dmg and ammo loss
                 print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
                       f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
             else:
                 print("You decide to run like a dishonorable deserter, disappointing Freedom and Liberty both!")
                 if functions.death_prob(stats['current_hp']) == 1:
                     stats['reinforcements'] -= 1
+                    stats['current_hp'] = 100
                     print(f"The swarm of vermin gave chase and didn't relent, they caught you and killed you! "
                           f"Helldiver down! Sending down reinforcements!\n"
                           f"Orbital has {stats['reinforcements']} Helldivers left!"
@@ -60,9 +72,18 @@ while stats['reinforcements'] != 0:
             kill_evade = input("Destroy, or evade? ")
             while kill_evade.lower() not in ("destroy", "evade"):
                 kill_evade = input("Make a decision helldiver! Destroy the pests, or evade?")
-            if kill_evade == "kill":
-                pass
+            if kill_evade == "destroy":
+                if functions.grenade_bounce() == 1:
+                    print("You open fire on the hive, decimating the vermin protecting it! You begin tossing grenades"
+                          "in the holes to shut the pests in when one of them crawls out just as you throw the grenade!"
+                          "It bounces right off the giant insect's hard shell and flies back into your arms!")
+                    stats['reinforcements'] -= 1
+                    stats['current_hp'] = 100
+                    print(f"Helldiver down! Sending down reinforcements!\n"
+                          f"Orbital has {stats['reinforcements']} Helldivers left!"
+                          "Tossing the rest of the grenades in finishes the job and destroys the hive!")
+                else:
+                    print("You open fire on the hive, decimating the vermin protecting it, then tossing grenades in the"
+                          "hive openings to shut the rest of them in! Hive destroyed!")
 
-    else:
-        print("You start exploring the area.")
 
