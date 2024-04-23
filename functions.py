@@ -17,6 +17,14 @@ def hp_loss():
     return random.randint(0,60)
 
 
+def reset_hp(stats):
+    stats['current_hp'] = 100
+
+
+def lost_life(stats):
+    stats['reinforcements'] -= 1
+
+
 def decrease_stats(stats):
     stats['current_ammo'] -= ammo_loss()
     stats['current_hp'] -= hp_loss()
@@ -30,11 +38,8 @@ def death_prob(current_hp):
     return prob
 
 
-
-
-
 def event_roll():
-    pick = random.randint(1,1)
+    pick = random.randint(2,2)
     if pick == 1:
         return "normal_bug_spawn"
     elif pick == 2:
@@ -54,4 +59,4 @@ def spawn_miniboss():
 
 
 def grenade_bounce():
-    return random.randint(1,10)
+    return random.randint(1, 5)
