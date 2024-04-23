@@ -9,6 +9,10 @@ def roll_d10():
     return random.randint(1,10)
 
 
+def roll_d6():
+    return random.randint(1,6)
+
+
 def ammo_loss():
     return random.randint(10,30)
 
@@ -39,7 +43,7 @@ def death_prob(current_hp):
 
 
 def event_roll():
-    pick = random.randint(2,2)
+    pick = random.randint(4,4)
     if pick == 1:
         return "normal_bug_spawn"
     elif pick == 2:
@@ -47,7 +51,7 @@ def event_roll():
     elif pick == 3:
         return "meteor_shower"
     else:
-        return "fire_tornado"
+        return "fire_tornadoes"
 
 
 def spawn_miniboss():

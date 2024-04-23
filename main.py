@@ -101,3 +101,32 @@ while stats['reinforcements'] != 0:
                     print("You let the vermin live another day, ensuring they'll be a deadly issue to the next unlucky"
                           " Helldiver who saves the world in this area!")
 
+        elif functions.event_roll() == "meteor_shower":
+            # getting hit by a meteor is an instant death
+            print("The skies turn dark, you look up and see a rain of meteors about to commence! Dodge, Helldiver!")
+            if functions.roll_d6() == 1:
+                functions.lost_life(stats)
+                functions.reset_hp(stats)
+                print("Just as you thought the rock shower was about to end, one of the giant boulders lands right on"
+                      " top of you!\n"
+                      "Helldiver down! Sending down reinforcements!\n"
+                      f"Orbital has {stats['reinforcements']} Helldivers left!")
+            else:
+                print("You emerge in one piece through the shower of boulders! Carry on, Helldiver!")
+
+        elif functions.event_roll() == "fire_tornadoes":
+            print("The skies turn red, you look up and see the twisting fires above connecting to the ones below! "
+                  "Avoid the fire tornadoes at all cost!")
+            # a d6 chance to get caught in the fire tornado
+            if functions.roll_d6() == 1:
+                # if they get touched by it, it does more damage than usual
+                functions.hp_loss() * 2
+                print("You've stumbled right into one of them! Drop and roll, Helldiver!")
+                # they have a chance of dying, higher if lost more hp
+                if functions.death_prob(stats) == 1:
+                    print("It's too late! Helldiver down! Sending down reinforcements!\n"
+                          f"Orbital has {stats['reinforcements']} Helldivers left!")
+                else:
+                    print(f"You've made it through with {stats['current_hp']} left! Carry on, Helldiver!")
+
+        # print("You made it to the objective!")
