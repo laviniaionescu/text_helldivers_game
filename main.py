@@ -1,8 +1,9 @@
-
+import time
 import functions
 
+mission_type = ["1. Rescue Operation", "2. Launch ICBM", "3. Exterminate Abomination"]
 
-mission_type = ["1. Search and Destroy", "2. Rescue Operation", "3. Launch ICBM"]
+civilian_status = {"rescued": 0, "dead": 0}
 
 stats = {"reinforcements": 5, "current_hp": 100, "current_ammo": 100}
 
@@ -14,21 +15,25 @@ while stats['reinforcements'] != 0:
     mission_pick = input("Press 1, 2 or 3: ")
     while mission_pick not in ["1", "2", "3"]:
         mission_pick = input("Press 1, 2 or 3: ")
-
     print("You dropped in on the battlefield!")
+    # time.sleep(2)
     obj_explore = input("Do you want to go to the objective, or explore? ")
     while obj_explore.lower() not in ("objective", "explore"):
         obj_explore = input("Time is Liberty, Helldiver! Do you want to go to the objective, or explore? ")
 
-########################################
+########################################################################################################
     if obj_explore.lower() == "explore":
+
         print("You start exploring the area.")
-########################################
+########################################################################################################
     else:
-        print("You head to the objective.")
+        # time.sleep(2)
+        print("You head to the objective!")
 
         if functions.event_roll() == "normal_bug_spawn":
+            # time.sleep(2)
             print("A swarm of Terminids crawl from the sand!")
+            # time.sleep(2)
             fight_flight = input("Do you bravely exterminate the vermin for liberty, "
                                  "or run away like a coward deserter?\n"
                                  "Fight or flight? ")
@@ -126,7 +131,38 @@ while stats['reinforcements'] != 0:
                 if functions.death_prob(stats) == 1:
                     print("It's too late! Helldiver down! Sending down reinforcements!\n"
                           f"Orbital has {stats['reinforcements']} Helldivers left!")
+                    functions.lost_life(stats)
+                    functions.reset_hp(stats)
                 else:
-                    print(f"You've made it through with {stats['current_hp']} left! Carry on, Helldiver!")
+                    print("You've made it through! Carry on!")
+            else:
+                print(f"You've made it through! Carry on!")
+################################################################################################################
+        if mission_pick == "1":
+            print("We have civilians to rescue, Helldiver! Open the doors and escort them safely to the ship!")
+            print("Terminids incoming! Open fire! Protect those civilians at all cost, Helldiver! Too many casualties "
+                  "and it's over!")
+            functions.decrease_stats(stats)
+            # we need 5 rescued civilians, if 3 die, it's mission failed
+            for i in range(5):
+                functions.decrease_stats(stats)
+                if functions.check_death(stats):
+                    functions.lost_life(stats)
+                    functions.reset_hp(stats)
+                    print("You fight bravely, but give your life for the citizens of Super Earth! Helldiver down! "
+                          "Sending down reinforcements!\n"
+                          f"Orbital has {stats['reinforcements']} Helldivers left!")
+                if functions.roll_d6() == 1:
+                    civilian_status['dead'] += 1
+                    print("Civilian down!")
+                else:
+                    civilian_status['rescued'] += 1
+            # print(f"rescued civs {civilian_status['rescued']}")
+            # print(f"dead civs {civilian_status['dead']}")
+            if civilian_status['dead'] == 3:
+                print("We lost too many civilians, the mission is a failure! Train harder, Helldiver!")
+                exit()
+            else:
+                print("Objective complete, good work, Helldiver! Now head over to extraction!")
 
-        # print("You made it to the objective!")
+

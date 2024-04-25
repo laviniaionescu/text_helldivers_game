@@ -18,7 +18,7 @@ def ammo_loss():
 
 
 def hp_loss():
-    return random.randint(0,60)
+    return random.randint(0,30)
 
 
 def reset_hp(stats):
@@ -29,17 +29,22 @@ def lost_life(stats):
     stats['reinforcements'] -= 1
 
 
+def check_death(stats):
+    if stats['current_hp'] <= 0:
+        return True
+
+
 def decrease_stats(stats):
     stats['current_ammo'] -= ammo_loss()
     stats['current_hp'] -= hp_loss()
 
 
-def death_prob(current_hp):
-    if current_hp < 50:
+def death_prob(stats):
+    if stats['current_hp'] < 50:
         prob = random.randint(1,5)
     else:
         prob = random.randint(1,10)
-    return prob
+
 
 
 def event_roll():
@@ -64,3 +69,4 @@ def spawn_miniboss():
 
 def grenade_bounce():
     return random.randint(1, 5)
+
