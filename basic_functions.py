@@ -1,4 +1,5 @@
 import random
+import time
 
 
 def roll_d100():
@@ -17,8 +18,9 @@ def ammo_loss():
     return random.randint(10,30)
 
 
+# check HERE for later issue if the upper cap is too high
 def hp_loss():
-    return random.randint(0,30)
+    return random.randint(0,40)
 
 
 def reset_hp(stats):
