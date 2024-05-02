@@ -3,6 +3,7 @@ import basic_functions
 import main_functions
 
 mission_type = ["1. Rescue Operation", "2. Launch ICBM", "3. Exterminate Abomination"]
+objective_complete = False
 
 civilian_status = {"rescued": 0, "dead": 0}
 generator_hp = 100
@@ -147,8 +148,6 @@ while stats['reinforcements'] != 0:
             main_functions.rescue_operation(stats, civilian_status)
 
         elif mission_pick == "2":
-            print("The ICBM needs fuel, turn on those pump generators!")
-            # time.sleep(2)
-            print("The sound of the generators activating is attracting Terminids! They're attacking the generators, "
-                  "protect them while they boot up and destroy the pests!")
             main_functions.generator_boot(20, generator_hp, stats)
+            main_functions.fuel_icbm(0, stats)
+            main_functions.launch_icbm(20, stats)

@@ -20,7 +20,7 @@ def ammo_loss():
 
 # check HERE for later issue if the upper cap is too high
 def hp_loss():
-    return random.randint(0,40)
+    return random.randint(0,30)
 
 
 def reset_hp(stats):
