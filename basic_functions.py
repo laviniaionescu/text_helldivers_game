@@ -15,12 +15,12 @@ def roll_d6():
 
 
 def ammo_loss():
-    return random.randint(10,30)
+    return random.randint(5,20)
 
 
 # check HERE for later issue if the upper cap is too high
 def hp_loss():
-    return random.randint(0,30)
+    return random.randint(0,20)
 
 
 def reset_hp(stats):
@@ -33,7 +33,11 @@ def lost_life(stats):
 
 def check_death(stats):
     if stats['current_hp'] <= 0:
+        stats['reinforcements'] -= 1
+        stats['current_hp'] = 100
+        stats['current_ammo'] = 200
         return True
+    return False
 
 
 def decrease_stats(stats):

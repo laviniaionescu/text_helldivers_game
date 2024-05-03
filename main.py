@@ -87,7 +87,7 @@ while stats['reinforcements'] != 0:
                 # throwing a grenade in the hole can bounce off an enemy
                 if basic_functions.grenade_bounce() == 1:
                     print("You open fire on the hive, decimating the vermin protecting it! You begin tossing grenades "
-                          " in the holes to shut the pests in when one of them crawls out just as you throw the grenade!"
+                          "in the holes to shut the pests in when one of them crawls out just as you throw the grenade!"
                           " It bounces right off the giant insect's hard shell and flies back into your arms!")
                     basic_functions.lost_life(stats)
                     basic_functions.reset_hp(stats)
@@ -98,8 +98,12 @@ while stats['reinforcements'] != 0:
                     print("You open fire on the hive, decimating the vermin protecting it, then tossing grenades in the"
                           "hive openings to shut the rest of them in! Hive destroyed!")
                     basic_functions.decrease_stats(stats)
-                    print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
-                          f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
+                    if basic_functions.check_death(stats):
+                        print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                              "Helldivers left! Continue the fight for liberty!")
+                    else:
+                        print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
+                              f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
             else:
                 if basic_functions.death_prob(stats['current_hp']) == 1:
                     basic_functions.lost_life(stats)
@@ -146,8 +150,10 @@ while stats['reinforcements'] != 0:
 ################################################################################################################
         if mission_pick == "1":
             main_functions.rescue_operation(stats, civilian_status)
+            main_functions.extraction(30, stats, objective_complete)
 
         elif mission_pick == "2":
             main_functions.generator_boot(20, generator_hp, stats)
             main_functions.fuel_icbm(0, stats)
             main_functions.launch_icbm(20, stats)
+            main_functions.extraction(30, stats, objective_complete)

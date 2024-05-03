@@ -62,18 +62,25 @@ def fuel_icbm(fuel, stats):
         fuel += 25
         time.sleep(5)
         basic_functions.decrease_stats(stats)
-        if fuel == 25:
-            print(f"ICBM fuel 25%! Keep them off of you! "
-                  f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
-        elif fuel == 50:
-            print("Fuel halfway through! Keep fighting! "
-                  f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
-            basic_functions.decrease_stats(stats)
-        elif fuel == 75:
-            print("Almost done, hang in there! "
-                  f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+        if basic_functions.check_death(stats):
+            print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                  "Helldivers left! Continue the fight for liberty!")
         else:
-            print("Fueling complete! Head up to the console and launch hell on them!")
+            if fuel == 25:
+                print(f"ICBM fuel 25%! Keep them off of you! "
+                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+            elif fuel == 50:
+                print("Fuel halfway through! Keep fighting! "
+                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+                basic_functions.decrease_stats(stats)
+                if basic_functions.check_death(stats):
+                    print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                          "Helldivers left! Continue the fight for liberty!")
+            elif fuel == 75:
+                print("Almost done, hang in there! "
+                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+            else:
+                print("Fueling complete! Head up to the console and launch hell on them!")
 
 
 def launch_icbm(seconds, stats):
@@ -84,12 +91,20 @@ def launch_icbm(seconds, stats):
         print(seconds)
         if seconds == 14:
             basic_functions.decrease_stats(stats)
-            print("Fourteen seconds left! Ignition commencing! Keep those Terminids off of the console!"
-                  f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+            if basic_functions.check_death(stats):
+                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                      "Helldivers left! Continue the fight for liberty!")
+            else:
+                print("Fourteen seconds left! Ignition commencing! Keep those Terminids off of the console!"
+                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
         elif seconds == 7:
             basic_functions.decrease_stats(stats)
-            print("Seven seconds left! Protect that console with your life! "
-                  f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+            if basic_functions.check_death(stats):
+                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                      "Helldivers left! Continue the fight for liberty!")
+            else:
+                print("Seven seconds left! Protect that console with your life! "
+                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
             if basic_functions.roll_d6() == 1:
                 basic_functions.lost_life(stats)
                 print("You're too close to the blast radius! Back away, before you're burnt to a crisp- Ah, too late! "
@@ -101,3 +116,34 @@ def launch_icbm(seconds, stats):
                   "The missile will do the rest!")
             objective_complete = True
 
+
+def extraction(seconds, stats, objective_complete):
+    print("Orbital shuttle deployed! Make your way to the extraction beacon, and keep the bugs off your back!")
+    while seconds != 1:
+        seconds -= 1
+        time.sleep(1)
+        print(seconds)
+        if seconds == 20:
+            basic_functions.decrease_stats(stats)
+            if basic_functions.check_death(stats):
+                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                      "Helldivers left! Continue the fight for liberty!")
+            else:
+                print("Pelican shuttle touchdown in twenty seconds! Keep running, Helldiver!"
+                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+        elif seconds == 10:
+            basic_functions.decrease_stats(stats)
+            if basic_functions.check_death(stats):
+                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                      "Helldivers left! Continue the fight for liberty!")
+            else:
+                print("Ten seconds to landing, you're almost there!"
+                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+        elif seconds == 1:
+            basic_functions.decrease_stats(stats)
+            print("Shuttle touchdown commencing, keep away from the Pelican's landing thrusters!")
+            time.sleep(1)
+            print("Extraction successful! Mission accomplished, great job, Helldiver!")
+            if basic_functions.roll_d6() == 1 and objective_complete:
+                print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
+                      "Mission accomplished!")
