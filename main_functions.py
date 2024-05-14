@@ -2,7 +2,7 @@ import random
 import basic_functions
 import time
 import classes
-
+import weapons
 
 remaining_health_symbol = "X"
 lost_health_symbol = "_"
@@ -165,8 +165,8 @@ def extraction(seconds, stats, objective_complete):
                       "Mission accomplished!")
 
 
-player = classes.Character(name="The Helldiver", health=100, damage=8)
-boss = classes.Character(name="The Bile Titan", health=100, damage=4)
+player = classes.Helldiver(name="The Helldiver", health=100)
+boss = classes.Boss(name="The Bile Titan", health=100, weapon=weapons.titan_attack)
 
 
 def boss_fight():

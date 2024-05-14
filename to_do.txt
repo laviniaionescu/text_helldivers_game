@@ -1,0 +1,4 @@
+# to do:
+# fix potential ammo issue during rescue
+# add 'exit' at any time
+# add 'check stats' at any time?
