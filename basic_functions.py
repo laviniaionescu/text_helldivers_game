@@ -52,7 +52,6 @@ def death_prob(stats):
         prob = random.randint(1,10)
 
 
-
 def event_roll():
     pick = random.randint(4,4)
     if pick == 1:

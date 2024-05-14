@@ -1,5 +1,19 @@
+import random
 import basic_functions
 import time
+import classes
+
+
+remaining_health_symbol = "X"
+lost_health_symbol = "_"
+bars = 20
+
+
+def health_bars(stats):
+    remaining_health_bars = round(stats['current_hp'] / stats['max_hp'] * bars)
+    lost_health_bars = bars - remaining_health_bars
+    print(f"HEALTH: {stats['current_hp']} / {stats['max_hp']}")
+    print(f"|{remaining_health_bars * remaining_health_symbol} {lost_health_bars * lost_health_symbol}|")
 
 
 def rescue_operation(stats, civilian_status):
@@ -131,6 +145,8 @@ def extraction(seconds, stats, objective_complete):
             else:
                 print("Pelican shuttle touchdown in twenty seconds! Keep running, Helldiver!"
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+                health_bars(stats)
+
         elif seconds == 10:
             basic_functions.decrease_stats(stats)
             if basic_functions.check_death(stats):
@@ -147,3 +163,18 @@ def extraction(seconds, stats, objective_complete):
             if basic_functions.roll_d6() == 1 and objective_complete:
                 print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
                       "Mission accomplished!")
+
+
+player = classes.Character(name="The Helldiver", health=100, damage=8)
+boss = classes.Character(name="The Bile Titan", health=100, damage=4)
+
+
+def boss_fight():
+    print("There it is, the massive beast! Orbital drop with medical "
+          "supplies incoming! Heal up, Helldiver, then remove that oversized pest!")
+    while True:
+        player.attack(boss)
+        boss.attack(player)
+        print(f"hp of {player.name}: {player.health}")
+        print(f"hp of {boss.name}: {boss.health}")
+        input()

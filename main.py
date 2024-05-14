@@ -1,6 +1,8 @@
 import time
 import basic_functions
 import main_functions
+import random
+from classes import Character
 
 mission_type = ["1. Rescue Operation", "2. Launch ICBM", "3. Exterminate Abomination"]
 objective_complete = False
@@ -8,10 +10,13 @@ objective_complete = False
 civilian_status = {"rescued": 0, "dead": 0}
 generator_hp = 100
 
-stats = {"reinforcements": 5, "current_hp": 100, "current_ammo": 200}
+stats = {"reinforcements": 5, "max_hp": 100, "current_hp": 100, "current_ammo": 200}
+
+
+
 
 # fix potential ammo issue during rescue
-# add 'exit' at any time?
+# add 'exit' at any time
 
 
 while stats['reinforcements'] != 0:
@@ -157,3 +162,5 @@ while stats['reinforcements'] != 0:
             main_functions.fuel_icbm(0, stats)
             main_functions.launch_icbm(20, stats)
             main_functions.extraction(30, stats, objective_complete)
+        elif mission_pick == "3":
+            main_functions.boss_fight()
