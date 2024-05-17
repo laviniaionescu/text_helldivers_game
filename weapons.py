@@ -4,13 +4,19 @@ class Weapon:
         self.damage = damage
 
 
-auto_cannon = Weapon(name="Auto Cannon", damage=10)
+auto_cannon = Weapon(name="Auto Cannon", damage=21)
 
-anti_tank = Weapon(name="Anti Tank RPG", damage=20)
+anti_tank = Weapon(name="Anti Tank RPG", damage=35)
 
-railgun = Weapon(name="Railgun", damage=15)
+railgun = Weapon(name="Railgun", damage=25)
 
 rifle = Weapon(name="Rifle", damage=5)
 
 
-titan_attack = Weapon(name="Bile", damage=15)
+titan_attack = Weapon(name="Bile Attack", damage=20)
+
+WEAPONS = """
+1. The Auto-Cannon
+2. The Anti-Tank
+3. The Railgun
+"""

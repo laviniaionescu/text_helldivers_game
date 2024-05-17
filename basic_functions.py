@@ -64,14 +64,6 @@ def event_roll():
         return "fire_tornadoes"
 
 
-def spawn_miniboss():
-    pick = random.randint(1,10)
-    if pick == 1:
-        return "spawn_charger"
-    elif pick == 10:
-        return "spawn_titan"
-
-
 def grenade_bounce():
     return random.randint(1, 5)
 

@@ -19,6 +19,10 @@ class Helldiver(Character):
     def __init__(self, name: str, health: int) -> None:
         super().__init__(name=name, health=health)
 
+    def equip(self, weapon) -> None:
+        self.weapon = weapon
+        print(f"{self.name} equipped a {self.weapon.name}")
+
 
 class Boss(Character):
     def __init__(self, name: str, health: int, weapon) -> None:

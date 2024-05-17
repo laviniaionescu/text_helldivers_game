@@ -4,6 +4,8 @@ import time
 import classes
 import weapons
 
+objective_complete = False
+
 remaining_health_symbol = "X"
 lost_health_symbol = "_"
 bars = 20
@@ -170,11 +172,30 @@ boss = classes.Boss(name="The Bile Titan", health=100, weapon=weapons.titan_atta
 
 
 def boss_fight():
-    print("There it is, the massive beast! Orbital drop with medical "
-          "supplies incoming! Heal up, Helldiver, then remove that oversized pest!")
-    while True:
+    global objective_complete
+    print("There it is, the massive beast! Listen up, Helldiver! An emergency situation demanded we redirect your "
+          "reinforcements towards an urgent side objective, this means you're alone in this one! To make up for it, "
+          "Orbital is sending down a medical supply package, as well as a weapon of your choice! Heal up, and transmit "
+          "what weapon you want to use against this fiend!")
+    player_choice = int(input(weapons.WEAPONS))
+    match player_choice:
+        case 1:
+            player.equip(weapons.auto_cannon)
+        case 2:
+            player.equip(weapons.anti_tank)
+        case 3:
+            player.equip(weapons.railgun)
+
+    while boss.health != 0 and player.health != 0:
         player.attack(boss)
         boss.attack(player)
         print(f"hp of {player.name}: {player.health}")
         print(f"hp of {boss.name}: {boss.health}")
         input()
+    if boss.health <= 0:
+        print("The vile beast has been felled! Great job, Helldiver, that will put a dent in their plans! Now head to "
+              "extraction!")
+        objective_complete = True
+    else:
+        print("mission failed")
+        objective_complete = False
