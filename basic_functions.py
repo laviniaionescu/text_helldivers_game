@@ -52,7 +52,6 @@ def death_prob(stats):
         prob = random.randint(1,10)
 
 
-
 def event_roll():
     pick = random.randint(4,4)
     if pick == 1:
@@ -63,14 +62,6 @@ def event_roll():
         return "meteor_shower"
     else:
         return "fire_tornadoes"
-
-
-def spawn_miniboss():
-    pick = random.randint(1,10)
-    if pick == 1:
-        return "spawn_charger"
-    elif pick == 10:
-        return "spawn_titan"
 
 
 def grenade_bounce():
