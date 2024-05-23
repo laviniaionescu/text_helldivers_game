@@ -18,6 +18,43 @@ def health_bars(stats):
     print(f"|{remaining_health_bars * remaining_health_symbol} {lost_health_bars * lost_health_symbol}|")
 
 
+def extraction(seconds, stats, objective_complete):
+    print("Orbital shuttle deployed! Make your way to the extraction beacon, and keep the bugs off your back!")
+    while seconds != 1:
+        seconds -= 1
+        time.sleep(1)
+        print(seconds)
+        if seconds == 20:
+            basic_functions.decrease_stats(stats)
+            if basic_functions.check_death(stats):
+                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                      "Helldivers left! Continue the fight for liberty!")
+            else:
+                print("Pelican shuttle touchdown in twenty seconds! Keep running, Helldiver!"
+                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+                health_bars(stats)
+
+        elif seconds == 10:
+            basic_functions.decrease_stats(stats)
+            if basic_functions.check_death(stats):
+                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                      "Helldivers left! Continue the fight for liberty!")
+            else:
+                print("Ten seconds to landing, you're almost there!"
+                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+        elif seconds == 1:
+            basic_functions.decrease_stats(stats)
+            print("Shuttle touchdown commencing, keep away from the Pelican's landing thrusters!")
+            time.sleep(1)
+            print("Extraction successful! Mission accomplished, great job, Helldiver!")
+
+            if basic_functions.roll_d6() == 1 and objective_complete:
+                print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
+                      "Mission accomplished!")
+
+
+
+# first mission
 def rescue_operation(stats, civilian_status):
     print("We have civilians to rescue, Helldiver! Open the doors and escort them safely to the ship!")
     print("Terminids incoming! Open fire! Protect those civilians at all cost, Helldiver! Too many casualties "
@@ -44,8 +81,11 @@ def rescue_operation(stats, civilian_status):
     else:
         print("Objective complete, good work, Helldiver! Now head over to extraction!")
         objective_complete = True
+        extraction(30, stats, objective_complete)
 
 
+
+# second mission
 def generator_boot(seconds, generator_hp, stats):
     print("The ICBM needs fuel, turn on those pump generators!")
     # time.sleep(2)
@@ -131,60 +171,29 @@ def launch_icbm(seconds, stats):
             print("We have liftoff! Good work, Helldiver, eliminate the rest of those vermin and head to extraction!"
                   "The missile will do the rest!")
             objective_complete = True
+            extraction(30, stats, objective_complete)
 
 
-def extraction(seconds, stats, objective_complete):
-    print("Orbital shuttle deployed! Make your way to the extraction beacon, and keep the bugs off your back!")
-    while seconds != 1:
-        seconds -= 1
-        time.sleep(1)
-        print(seconds)
-        if seconds == 20:
-            basic_functions.decrease_stats(stats)
-            if basic_functions.check_death(stats):
-                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
-                      "Helldivers left! Continue the fight for liberty!")
-            else:
-                print("Pelican shuttle touchdown in twenty seconds! Keep running, Helldiver!"
-                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
-                health_bars(stats)
-
-        elif seconds == 10:
-            basic_functions.decrease_stats(stats)
-            if basic_functions.check_death(stats):
-                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
-                      "Helldivers left! Continue the fight for liberty!")
-            else:
-                print("Ten seconds to landing, you're almost there!"
-                      f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
-        elif seconds == 1:
-            basic_functions.decrease_stats(stats)
-            print("Shuttle touchdown commencing, keep away from the Pelican's landing thrusters!")
-            time.sleep(1)
-            print("Extraction successful! Mission accomplished, great job, Helldiver!")
-            if basic_functions.roll_d6() == 1 and objective_complete:
-                print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
-                      "Mission accomplished!")
-
-
+# third mission
 player = classes.Helldiver(name="The Helldiver", health=100)
 boss = classes.Boss(name="The Bile Titan", health=100, weapon=weapons.titan_attack)
 
 
-def boss_fight():
-    global objective_complete
+def boss_fight(stats, objective_complete):
     print("There it is, the massive beast! Listen up, Helldiver! An emergency situation demanded we redirect your "
           "reinforcements towards an urgent side objective, this means you're alone in this one! To make up for it, "
           "Orbital is sending down a medical supply package, as well as a weapon of your choice! Heal up, and transmit "
           "what weapon you want to use against this fiend!")
-    player_choice = int(input(weapons.WEAPONS))
-    match player_choice:
-        case 1:
-            player.equip(weapons.auto_cannon)
-        case 2:
-            player.equip(weapons.anti_tank)
-        case 3:
-            player.equip(weapons.railgun)
+    player_choice = input(weapons.WEAPONS)
+    while player_choice not in ["1", "2", "3"]:
+        print("Pick a weapon, Helldiver!")
+        player_choice = input(weapons.WEAPONS)
+    if player_choice == "1":
+        player.equip(weapons.auto_cannon)
+    elif player_choice == "2":
+        player.equip(weapons.anti_tank)
+    else:
+        player.equip(weapons.railgun)
 
     while boss.health != 0 and player.health != 0:
         player.attack(boss)
@@ -195,7 +204,6 @@ def boss_fight():
     if boss.health <= 0:
         print("The vile beast has been felled! Great job, Helldiver, that will put a dent in their plans! Now head to "
               "extraction!")
-        objective_complete = True
+        extraction(30, stats, objective_complete)
     else:
-        print("mission failed")
-        objective_complete = False
+        print("You were our last hope! Mission failed, Orbiter departing!")

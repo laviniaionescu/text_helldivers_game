@@ -1,6 +1,8 @@
 # to do:
+# add the time.sleep near the end
 # fix potential ammo issue during rescue
 # add 'exit' at any time
 # add 'check stats' at any time?
 # make requirements file
 # fix weapon dmg so there's a chance the player dies if they pick the wrong weapon
+

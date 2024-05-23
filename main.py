@@ -148,14 +148,12 @@ while stats['reinforcements'] != 0:
 ################################################################################################################
         if mission_pick == "1":
             main_functions.rescue_operation(stats, civilian_status)
-            main_functions.extraction(30, stats, main_functions.objective_complete)
-
+            exit()
         elif mission_pick == "2":
             main_functions.generator_boot(20, generator_hp, stats)
             main_functions.fuel_icbm(0, stats)
             main_functions.launch_icbm(20, stats)
-            main_functions.extraction(30, stats, main_functions.objective_complete)
+            exit()
         elif mission_pick == "3":
-            main_functions.boss_fight()
-            if main_functions.objective_complete:
-                main_functions.extraction(30, stats, main_functions.objective_complete)
+            main_functions.boss_fight(stats, main_functions.objective_complete)
+            exit()
