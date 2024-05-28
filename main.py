@@ -11,18 +11,22 @@ civilian_status = {"rescued": 0, "dead": 0}
 generator_hp = 100
 
 
-stats = {"reinforcements": 5, "max_hp": 100, "current_hp": 100, "current_ammo": 200}
+stats = {"reinforcements": 5, "current_hp": 100, "max_hp": 100, "current_ammo": 200}
 
 
 while stats['reinforcements'] != 0:
     player_name = basic_functions.get_player_name()
-    print(f"Helldiver {player_name}, choose in what way you want to save the world today!")
+    print(f"Helldiver {player_name}, choose in what way you want to save the world today! Or enter 'x' at any time "
+          f"to desert like a coward!")
     for mission in mission_type:
         print(mission)
     mission_pick = input("Press 1, 2 or 3: ")
-    while mission_pick not in ["1", "2", "3"]:
+    while mission_pick not in ["1", "2", "3", 'x', 'X']:
         mission_pick = input("Press 1, 2 or 3: ")
-    print("You dropped in on the battlefield!")
+    # if mission_pick.lower() == 'x':
+    #     exit()
+    else:
+        print("You dropped in on the battlefield!")
     # time.sleep(2)
 
     if basic_functions.event_roll() == "normal_bug_spawn":
@@ -33,7 +37,11 @@ while stats['reinforcements'] != 0:
                              "or run away like a coward deserter?\n"
                              "Fight or flight? ")
         while fight_flight.lower() not in ("fight", "flight"):
+            # if fight_flight.lower() == 'x':
+            #     exit()
             fight_flight = input("This is not the time to freeze, Helldiver! Fight or flight!? ")
+
+
         if fight_flight == "fight":
             print("You pull out your trusty rifle and proceed to dispense liberty to the freedom-hating Terminids!")
 
@@ -41,7 +49,7 @@ while stats['reinforcements'] != 0:
             basic_functions.decrease_stats(stats)
 
             # if their hp is low enough, they can die in the rest of the fight
-            if basic_functions.death_prob(stats["current_hp"]) == 1:
+            if basic_functions.death_prob(stats) == 1:
                 basic_functions.lost_life(stats)
                 print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']} "
                       f"Helldivers left! Continue the fight for liberty!")
@@ -58,7 +66,7 @@ while stats['reinforcements'] != 0:
         else:
             print("You decide to run like a dishonorable deserter, disappointing Freedom and Liberty both!")
             # if they run, they can get caught up and killed
-            if basic_functions.death_prob(stats['current_hp']) == 1:
+            if basic_functions.death_prob(stats) == 1:
                 basic_functions.lost_life(stats)
                 basic_functions.reset_hp(stats)
                 print(f"The swarm of vermin gave chase and didn't relent, they caught you and killed you! "
@@ -94,7 +102,7 @@ while stats['reinforcements'] != 0:
                     print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
                           f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
         else:
-            if basic_functions.death_prob(stats['current_hp']) == 1:
+            if basic_functions.death_prob(stats) == 1:
                 basic_functions.lost_life(stats)
                 basic_functions.reset_hp(stats)
                 print(f"You begin tactically avoiding the hive, but an unsuspecting sneeze alerts the enemy to your"

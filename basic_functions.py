@@ -66,7 +66,7 @@ def decrease_stats(stats):
     health_bars(stats)
 
 
-def death_prob(stats):
+def death_prob(stats: dict):
     if stats['current_hp'] < 50:
         prob = random.randint(1,5)
     else:
@@ -74,7 +74,7 @@ def death_prob(stats):
 
 
 def event_roll():
-    pick = random.randint(4,4)
+    pick = random.randint(1,1)
     if pick == 1:
         return "normal_bug_spawn"
     elif pick == 2:
