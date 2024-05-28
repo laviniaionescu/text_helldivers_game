@@ -2,6 +2,13 @@ import random
 import time
 
 
+def get_player_name():
+    player_name = input("Welcome, Helldiver! Register your name to start today's operation: ")
+    while len(player_name) < 3:
+        player_name = input("Your name can't empty or be less than 3 letters! "
+                            "Register your name to start today's operation! ")
+    return player_name
+
 def roll_d100():
     return random.randint(1,100)
 
