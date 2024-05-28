@@ -55,6 +55,7 @@ def rescue_operation(stats, civilian_status):
     # we need 5 rescued civilians, if 3 die, it's mission failed
     for i in range(5):
         basic_functions.decrease_stats(stats)
+        print(stats)
         if basic_functions.check_death(stats):
             basic_functions.lost_life(stats)
             basic_functions.reset_hp(stats)
