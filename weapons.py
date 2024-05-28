@@ -4,7 +4,7 @@ class Weapon:
         self.damage = damage
 
 
-auto_cannon = Weapon(name="Auto Cannon", damage=21)
+auto_cannon = Weapon(name="Auto Cannon", damage=15)
 
 anti_tank = Weapon(name="Anti Tank RPG", damage=35)
 

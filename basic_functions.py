@@ -2,6 +2,26 @@ import random
 import time
 
 
+remaining_health_symbol = "▒"
+lost_health_symbol = "_"
+bars = 20
+
+
+def get_player_name():
+    player_name = input("Welcome, Helldiver! Register your name to start today's operation: ")
+    while len(player_name) < 3:
+        player_name = input("Your name can't empty or be less than 3 letters! "
+                            "Register your name to start today's operation! ")
+    return player_name
+
+
+def health_bars(stats):
+    remaining_health_bars = round(stats['current_hp'] / stats['max_hp'] * bars)
+    lost_health_bars = bars - remaining_health_bars
+    print(f"HP remaining: {stats['current_hp']} / {stats['max_hp']}")
+    print(f"|{remaining_health_bars * remaining_health_symbol} {lost_health_bars * lost_health_symbol}|")
+
+
 def roll_d100():
     return random.randint(1,100)
 
@@ -43,9 +63,10 @@ def check_death(stats):
 def decrease_stats(stats):
     stats['current_ammo'] -= ammo_loss()
     stats['current_hp'] -= hp_loss()
+    health_bars(stats)
 
 
-def death_prob(stats):
+def death_prob(stats: dict):
     if stats['current_hp'] < 50:
         prob = random.randint(1,5)
     else:
@@ -53,7 +74,7 @@ def death_prob(stats):
 
 
 def event_roll():
-    pick = random.randint(4,4)
+    pick = random.randint(1,1)
     if pick == 1:
         return "normal_bug_spawn"
     elif pick == 2:
@@ -66,4 +87,10 @@ def event_roll():
 
 def grenade_bounce():
     return random.randint(1, 5)
+
+
+def coin_flip():
+    return random.randint(1, 2)
+
+
 
