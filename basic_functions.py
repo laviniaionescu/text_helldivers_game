@@ -9,6 +9,7 @@ def get_player_name():
                             "Register your name to start today's operation! ")
     return player_name
 
+
 def roll_d100():
     return random.randint(1,100)
 
