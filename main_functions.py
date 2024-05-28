@@ -1,4 +1,3 @@
-import random
 import basic_functions
 import time
 import classes
@@ -6,16 +5,10 @@ import weapons
 
 objective_complete = False
 
-remaining_health_symbol = "X"
-lost_health_symbol = "_"
-bars = 20
+
+player_score = 0
 
 
-def health_bars(stats):
-    remaining_health_bars = round(stats['current_hp'] / stats['max_hp'] * bars)
-    lost_health_bars = bars - remaining_health_bars
-    print(f"HEALTH: {stats['current_hp']} / {stats['max_hp']}")
-    print(f"|{remaining_health_bars * remaining_health_symbol} {lost_health_bars * lost_health_symbol}|")
 
 
 def extraction(seconds, stats, objective_complete):
@@ -32,7 +25,7 @@ def extraction(seconds, stats, objective_complete):
             else:
                 print("Pelican shuttle touchdown in twenty seconds! Keep running, Helldiver!"
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
-                health_bars(stats)
+                basic_functions.health_bars(stats)
 
         elif seconds == 10:
             basic_functions.decrease_stats(stats)

@@ -3,8 +3,6 @@
 # fix potential ammo issue during rescue
 # add 'exit' at any time
 # add 'check stats' at any time?
-# add samples found
-# write high score
-# add health bars to everything else
+
 
 
