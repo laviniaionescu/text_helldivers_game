@@ -5,7 +5,6 @@ import main_functions
 import random
 
 
-
 mission_type = ["1. Rescue Operation", "2. Launch ICBM", "3. Exterminate Abomination"]
 civilian_status = {"rescued": 0, "dead": 0}
 generator_hp = 100
@@ -43,19 +42,34 @@ if __name__ == '__main__':
     ####################################################################################
         if mission_pick == "1":
             main_functions.rescue_operation(stats, civilian_status)
+            player_score = basic_functions.update_player_score(player_score)
+            player_score += 10
+            # main_functions.extraction(30, stats)
+            player_stats = {"Name": player_name, "Score": player_score}
+            with open("scores.jsonl", "a") as f:
+                f.write(json.dumps(player_stats, indent=4) + "\n")
+            exit()
 
         elif mission_pick == "2":
             main_functions.generator_boot(20, generator_hp, stats)
             main_functions.fuel_icbm(0, stats)
             main_functions.launch_icbm(20, stats)
+            player_score = basic_functions.update_player_score(player_score)
+            player_score += 20
+            # main_functions.extraction(30, stats)
+            player_stats = {"Name": player_name, "Score": player_score}
+            with open("scores.jsonl", "a") as f:
+                f.write(json.dumps(player_stats, indent=4) + "\n")
             exit()
+
         elif mission_pick == "3":
-            main_functions.boss_fight(stats, main_functions.objective_complete)
+            main_functions.boss_fight(stats)
             player_score = basic_functions.update_player_score(player_score)
             player_score += 30
+            # main_functions.extraction(30, stats)
             player_stats = {"Name": player_name, "Score": player_score}
-            with open("scores.json", "w") as f:
-                json.dump(player_stats, f)
+            with open("scores.jsonl", "a") as f:
+                f.write(json.dumps(player_stats, indent=4) + "\n")
             exit()
 
 

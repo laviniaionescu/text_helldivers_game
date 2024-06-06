@@ -3,15 +3,13 @@ import time
 import classes
 import weapons
 
-objective_complete = False
-
 
 player_score = 0
 
 
 
 
-def extraction(seconds, stats, objective_complete):
+def extraction(seconds, stats):
     print("Orbital shuttle deployed! Make your way to the extraction beacon, and keep the bugs off your back!")
     while seconds != 1:
         seconds -= 1
@@ -41,7 +39,7 @@ def extraction(seconds, stats, objective_complete):
             time.sleep(1)
             print("Extraction successful! Mission accomplished, great job, Helldiver!")
 
-            if basic_functions.roll_d6() == 1 and objective_complete:
+            if basic_functions.roll_d6() == 1:
                 print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
                       "Mission accomplished!")
 
@@ -74,8 +72,7 @@ def rescue_operation(stats, civilian_status):
         exit()
     else:
         print("Objective complete, good work, Helldiver! Now head over to extraction!")
-        objective_complete = True
-        extraction(30, stats, objective_complete)
+
 
 
 
@@ -164,8 +161,7 @@ def launch_icbm(seconds, stats):
         elif seconds == 1:
             print("We have liftoff! Good work, Helldiver, eliminate the rest of those vermin and head to extraction!"
                   "The missile will do the rest!")
-            objective_complete = True
-            extraction(30, stats, objective_complete)
+
 
 
 # third mission
@@ -173,7 +169,7 @@ player = classes.Helldiver(name="The Helldiver", health=100)
 boss = classes.Boss(name="The Bile Titan", health=100, weapon=weapons.titan_attack)
 
 
-def boss_fight(stats, objective_complete):
+def boss_fight(stats):
     print("There it is, the massive beast! Listen up, Helldiver! An emergency situation demanded we redirect your "
           "reinforcements towards an urgent side objective, this means you're alone in this one! To make up for it, "
           "Orbital is sending down a medical supply package, as well as a weapon of your choice! Heal up, and transmit "
@@ -198,6 +194,5 @@ def boss_fight(stats, objective_complete):
     if boss.health <= 0:
         print("The vile beast has been felled! Great job, Helldiver, that will put a dent in their plans! Now head to "
               "extraction!")
-        extraction(30, stats, objective_complete)
     else:
         print("You were our last hope! Mission failed, Orbiter departing!")
