@@ -198,6 +198,6 @@ def boss_fight(stats, objective_complete):
     if boss.health <= 0:
         print("The vile beast has been felled! Great job, Helldiver, that will put a dent in their plans! Now head to "
               "extraction!")
-        # extraction(30, stats, objective_complete)
+        extraction(30, stats, objective_complete)
     else:
         print("You were our last hope! Mission failed, Orbiter departing!")

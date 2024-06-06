@@ -197,4 +197,25 @@ def coin_flip():
     return random.randint(1, 2)
 
 
+def coin_flip_samples():
+    return random.randint(1, 2)
+
+
+def find_sample():
+    return random.choice(['common', 'rare'])
+
+
+def update_player_score(player_score):
+    if coin_flip_samples() == 1:
+        sample = find_sample()
+        if sample == 'common':
+            player_score += 10
+            print("Look at that, Helldiver, a common sample! Pick that up, we need it for research.")
+        elif sample == 'rare':
+            player_score += 20
+            print("Rare sample spotted! Pick that up right away!")
+    else:
+        print("Looks like there are no samples here, shame, carry on.")
+    return player_score
+
 
