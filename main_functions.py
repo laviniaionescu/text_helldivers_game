@@ -7,9 +7,8 @@ import weapons
 player_score = 0
 
 
-
-
 def extraction(seconds, stats):
+    time.sleep(2)
     print("Orbital shuttle deployed! Make your way to the extraction beacon, and keep the bugs off your back!")
     while seconds != 1:
         seconds -= 1
@@ -40,6 +39,7 @@ def extraction(seconds, stats):
             print("Extraction successful! Mission accomplished, great job, Helldiver!")
 
             if basic_functions.roll_d6() == 1:
+                time.sleep(1)
                 print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
                       "Mission accomplished!")
 
@@ -47,13 +47,15 @@ def extraction(seconds, stats):
 
 # first mission
 def rescue_operation(stats, civilian_status):
+    time.sleep(2)
     print("We have civilians to rescue, Helldiver! Open the doors and escort them safely to the ship!")
+    time.sleep(2)
     print("Terminids incoming! Open fire! Protect those civilians at all cost, Helldiver! Too many casualties "
           "and it's over!")
-    # we need 5 rescued civilians, if 3 die, it's mission failed
     for i in range(5):
+        time.sleep(3)
         basic_functions.decrease_stats(stats)
-        print(stats)
+        # print(stats)
         if basic_functions.check_death(stats):
             basic_functions.lost_life(stats)
             basic_functions.reset_hp(stats)
@@ -64,13 +66,16 @@ def rescue_operation(stats, civilian_status):
             civilian_status['dead'] += 1
             print("Civilian down!")
         else:
+            print("Civilian rescued!")
             civilian_status['rescued'] += 1
     # print(f"rescued civs {civilian_status['rescued']}")
     # print(f"dead civs {civilian_status['dead']}")
     if civilian_status['dead'] == 3:
+        time.sleep(1)
         print("We lost too many civilians, the mission is a failure! Train harder, Helldiver!")
         exit()
     else:
+        time.sleep(2)
         print("Objective complete, good work, Helldiver! Now head over to extraction!")
 
 

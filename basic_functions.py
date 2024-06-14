@@ -74,7 +74,7 @@ def death_prob(stats: dict):
 
 
 def event_roll():
-    pick = random.randint(1, 4)
+    pick = random.randint(4, 4)
     if pick == 1:
         return "normal_bug_spawn"
     elif pick == 2:
@@ -93,8 +93,10 @@ def normal_bug_spawn(stats):
                          "or run away like a coward deserter?\n"
                          "Fight or flight? ")
     while fight_flight.lower() not in ("fight", "flight"):
+        time.sleep(1)
         fight_flight = input("This is not the time to freeze, Helldiver! Fight or flight!? ")
     if fight_flight == "fight":
+        time.sleep(1)
         print("You pull out your trusty rifle and proceed to dispense liberty to the freedom-hating Terminids!")
         decrease_stats(stats)
         if death_prob(stats) == 1:
@@ -103,16 +105,20 @@ def normal_bug_spawn(stats):
                   f"Helldivers left! Continue the fight for liberty!")
             reset_hp(stats)
             decrease_stats(stats)
+            time.sleep(1)
             print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
                   f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
         else:
+            time.sleep(1)
             print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
                   f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
     else:
+        time.sleep(1)
         print("You decide to run like a dishonorable deserter, disappointing Freedom and Liberty both!")
         if death_prob(stats) == 1:
             lost_life(stats)
             reset_hp(stats)
+            time.sleep(1)
             print(f"The swarm of vermin gave chase and didn't relent, they caught you and killed you! "
                   f"Helldiver down! Sending down reinforcements!\n"
                   f"Orbital has {stats['reinforcements']} Helldivers left!"
@@ -120,6 +126,7 @@ def normal_bug_spawn(stats):
 
 
 def hive_spawn(stats):
+    time.sleep(1)
     print("What's that, you came across a Terminid hive! Do you eradicate them all, or proceed to the"
           " objective by using advanced stealth evasion tactics?")
     kill_evade = input("Destroy, or evade? ")
@@ -127,65 +134,81 @@ def hive_spawn(stats):
         kill_evade = input("Make a decision helldiver! Destroy the pests, or evade?")
     if kill_evade == "destroy":
         if grenade_bounce() == 1:
+            time.sleep(1)
             print("You open fire on the hive, decimating the vermin protecting it! You begin tossing grenades "
                   "in the holes to shut the pests in when one of them crawls out just as you throw the grenade!"
                   " It bounces right off the giant insect's hard shell and flies back into your arms!")
             lost_life(stats)
             reset_hp(stats)
+            time.sleep(1)
             print(f"Helldiver down! Sending down reinforcements!\n"
                   f"Orbital has {stats['reinforcements']} Helldivers left!"
                   "Tossing the last grenade in finishes the job and destroys the hive!")
         else:
+            time.sleep(1)
             print("You open fire on the hive, decimating the vermin protecting it, then tossing grenades in the"
                   " hive openings to shut the rest of them in! Hive destroyed!")
             decrease_stats(stats)
             if check_death(stats):
+                time.sleep(1)
                 print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
                       "Helldivers left! Continue the fight for liberty!")
             else:
+                time.sleep(1)
                 print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
                       f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
     else:
         if death_prob(stats) == 1:
             lost_life(stats)
             reset_hp(stats)
+            time.sleep(1)
             print(f"You begin tactically avoiding the hive, but an unsuspecting sneeze alerts the enemy to your"
                   " presence! You start emergency evasive maneuvers, but the faster ones catch up to you!\n"
                   "Helldiver down! Sending down reinforcements!\n"
                   f"Orbital has {stats['reinforcements']} Helldivers left!")
         else:
+            time.sleep(1)
             print("You let the vermin live another day, ensuring they'll be a deadly issue to the next unlucky"
                   " Helldiver who saves the world in this area!")
 
 
 def meteor_shower(stats):
+    time.sleep(2)
     print("The skies turn dark, you look up and see a rain of meteors about to commence! Dodge, Helldiver!")
+    time.sleep(2)
     if roll_d6() == 1:
         lost_life(stats)
         reset_hp(stats)
+        time.sleep(2)
         print("Just as you thought the rock shower was about to end, one of the giant boulders lands right on"
               " top of you!\n"
               "Helldiver down! Sending down reinforcements!\n"
               f"Orbital has {stats['reinforcements']} Helldivers left!")
     else:
+        time.sleep(2)
         print("Lady Liberty herself must've been watching over you, because you emerged in one piece through the "
               "shower of boulders! Carry on, Helldiver!")
 
 
 def fire_tornadoes(stats):
+    time.sleep(2)
     print("The skies turn red, you look up and see the twisting fires above connecting to the ones below! "
           "Avoid the fire tornadoes at all cost!")
     if roll_d6() == 1:
         hp_loss() * 2
+        time.sleep(2)
         print("You've stumbled right into one of them! Drop and roll, Helldiver!")
         if death_prob(stats) == 1:
+            time.sleep(3)
             print("It's too late! Helldiver down! Sending down reinforcements!\n"
                   f"Orbital has {stats['reinforcements']} Helldivers left!")
             lost_life(stats)
             reset_hp(stats)
         else:
-            print("You've made it through! Carry on!")
+            time.sleep(3)
+            print("Somehow, you've made it through! Carry on!")
     else:
+        time.sleep(2)
         print(f"You've made it through! Carry on!")
 
 
