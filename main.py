@@ -4,7 +4,6 @@ import basic_functions
 import main_functions
 
 
-
 mission_type = ["1. Rescue Operation", "2. Launch ICBM", "3. Exterminate Abomination"]
 civilian_status = {"rescued": 0, "dead": 0}
 generator_hp = 100
@@ -43,14 +42,17 @@ if __name__ == '__main__':
     ####################################################################################
         match mission_pick:
             case 1:
-                main_functions.rescue_operation(stats, civilian_status)
-                player_score = basic_functions.update_player_score(player_score)
-                player_score += 10
-                # main_functions.extraction(30, stats)
-                player_stats = {"Name": player_name, "Score": player_score}
-                with open("scores.jsonl", "a") as f:
-                    f.write(json.dumps(player_stats, indent=4) + "\n")
-                exit()
+                rescue_civs = main_functions.rescue_operation(stats, civilian_status)
+                if rescue_civs == "mission failed":
+                    exit()
+                else:
+                    player_score = basic_functions.update_player_score(player_score)
+                    player_score += 10
+                    main_functions.extraction(30, stats)
+                    player_stats = {"Name": player_name, "Score": player_score}
+                    with open("scores.jsonl", "a") as f:
+                        f.write(json.dumps(player_stats, indent=4) + "\n")
+                    exit()
 
             case 2:
                 main_functions.generator_boot(20, generator_hp, stats)
@@ -58,21 +60,24 @@ if __name__ == '__main__':
                 main_functions.launch_icbm(20, stats)
                 player_score = basic_functions.update_player_score(player_score)
                 player_score += 20
-                # main_functions.extraction(30, stats)
+                main_functions.extraction(30, stats)
                 player_stats = {"Name": player_name, "Score": player_score}
                 with open("scores.jsonl", "a") as f:
                     f.write(json.dumps(player_stats, indent=4) + "\n")
                 exit()
 
             case 3:
-                main_functions.boss_fight(stats)
-                player_score = basic_functions.update_player_score(player_score)
-                player_score += 30
-                # main_functions.extraction(30, stats)
-                player_stats = {"Name": player_name, "Score": player_score}
-                with open("scores.jsonl", "a") as f:
-                    f.write(json.dumps(player_stats, indent=4) + "\n")
-                exit()
+                boss_fight = main_functions.boss_fight(stats)
+                if boss_fight == "mission successful":
+                    player_score = basic_functions.update_player_score(player_score)
+                    player_score += 30
+                    main_functions.extraction(30, stats)
+                    player_stats = {"Name": player_name, "Score": player_score}
+                    with open("scores.jsonl", "a") as f:
+                        f.write(json.dumps(player_stats, indent=4) + "\n")
+                    exit()
+                else:
+                    exit()
 
 
 

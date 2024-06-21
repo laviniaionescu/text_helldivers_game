@@ -74,7 +74,7 @@ def death_prob(stats: dict):
 
 
 def event_roll():
-    pick = random.randint(4, 4)
+    pick = random.randint(1, 4)
     if pick == 1:
         return "normal_bug_spawn"
     elif pick == 2:
@@ -101,8 +101,8 @@ def normal_bug_spawn(stats):
         decrease_stats(stats)
         if death_prob(stats) == 1:
             lost_life(stats)
-            print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']} "
-                  f"Helldivers left! Continue the fight for liberty!")
+            print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                  f" Helldivers left! Continue the fight for liberty!")
             reset_hp(stats)
             decrease_stats(stats)
             time.sleep(1)
