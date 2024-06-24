@@ -7,14 +7,6 @@ lost_health_symbol = "_"
 bars = 20
 
 
-def get_player_name():
-    player_name = input("Welcome, Helldiver! Register your name to start today's operation: ")
-    while len(player_name) < 2:
-        player_name = input("Your name can't empty or be less than 2 letters! "
-                            "Register your name to start today's operation! ")
-    return player_name
-
-
 def health_bars(stats):
     remaining_health_bars = round(stats['current_hp'] / stats['max_hp'] * bars)
     lost_health_bars = bars - remaining_health_bars
@@ -22,25 +14,32 @@ def health_bars(stats):
     print(f"|{remaining_health_bars * remaining_health_symbol} {lost_health_bars * lost_health_symbol}|")
 
 
+def get_player_name():
+    player_name = input("Welcome, Helldiver! Register your name to start today's operation: ")
+    while len(player_name.strip()) < 2:
+        player_name = input("Your name can't empty or be less than 2 letters! "
+                            "Register your name to start today's operation! ")
+    return player_name
+
+
 def roll_d100():
-    return random.randint(1,100)
+    return random.randint(1, 100)
 
 
 def roll_d10():
-    return random.randint(1,10)
+    return random.randint(1, 10)
 
 
 def roll_d6():
-    return random.randint(1,6)
+    return random.randint(1, 6)
 
 
 def ammo_loss():
-    return random.randint(5,20)
+    return random.randint(5, 20)
 
 
-# check HERE for later issue if the upper cap is too high
 def hp_loss():
-    return random.randint(0,20)
+    return random.randint(0, 20)
 
 
 def reset_hp(stats):
@@ -79,6 +78,10 @@ def death_prob(stats: dict):
         prob = random.randint(1,5)
     else:
         prob = random.randint(1,10)
+    if prob == 1:
+        return True
+    else:
+        return False
 
 
 def event_roll():
@@ -217,7 +220,7 @@ def fire_tornadoes(stats):
         time.sleep(2)
         print("You've stumbled right into one of them! Drop and roll, Helldiver!")
         if death_prob(stats) == 1:
-            time.sleep(3)
+            time.sleep(2)
             print("It's too late! Helldiver down! Sending down reinforcements!\n"
                   f"Orbital has {stats['reinforcements']} Helldivers left!")
             lost_life(stats)
@@ -236,8 +239,8 @@ def grenade_bounce():
     return random.randint(1, 5)
 
 
-def coin_flip():
-    return random.randint(1, 2)
+# def coin_flip():
+#     return random.randint(1, 2)
 
 
 def coin_flip_samples():

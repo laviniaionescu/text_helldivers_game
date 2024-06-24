@@ -10,31 +10,36 @@ import weapons
 def extraction(seconds, stats):
     time.sleep(2)
     print("Orbital shuttle deployed! Make your way to the extraction beacon, and keep the bugs off your back!")
+    # countdown
     while seconds != 1:
         seconds -= 1
         time.sleep(1)
         print(seconds)
         if seconds == 20:
+            # fight, lose hp and ammo
             basic_functions.decrease_stats(stats)
+            # if you die, check how many lives left, if none, game over. if some, refill hp and ammo and lose life with
+            # check death function
             if basic_functions.check_death(stats):
                 if basic_functions.check_game_over(stats):
                     exit()
                 print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']} "
-                      "Helldivers left! Continue the fight for liberty!")
+                      "Helldivers left! Pick up and bring back anything that Helldiver dropped!")
             else:
                 print("Pelican shuttle touchdown in twenty seconds! Keep running, Helldiver! "
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
-                basic_functions.health_bars(stats)
 
         elif seconds == 10:
+            # keep fighting, lose hp and ammo
             basic_functions.decrease_stats(stats)
+            # check for death, check for game over, if dead refill stats and lose life
             if basic_functions.check_death(stats):
                 if basic_functions.check_game_over(stats):
                     exit()
                 print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']} "
-                      "Helldivers left! Continue the fight for liberty!")
+                      "Helldivers left! Pick up and bring back anything that Helldiver dropped!")
             else:
-                print("Ten seconds to landing, you're almost there!"
+                print("Ten seconds to landing, you're almost there! "
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
         elif seconds == 1:
             basic_functions.decrease_stats(stats)
@@ -42,6 +47,8 @@ def extraction(seconds, stats):
             time.sleep(1)
             print("Extraction successful! Mission accomplished, great job, Helldiver!")
 
+            # chance to die by staying too close to the shuttle's thrusters, mission accomplished coz helldivers are
+            # expendable
             if basic_functions.roll_d6() == 1:
                 time.sleep(1)
                 print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
@@ -56,14 +63,11 @@ def rescue_operation(stats, civilian_status):
     print("Terminids incoming! Open fire! Protect those civilians at all cost, Helldiver! Too many casualties "
           "and it's over!")
     for i in range(5):
+        # for 5 civs, lose hp & ammo, check for death and game over
         time.sleep(3)
         basic_functions.decrease_stats(stats)
         # print(stats)
         if basic_functions.check_death(stats):
-            basic_functions.lost_life(stats)
-            if basic_functions.check_game_over(stats):
-                exit()
-            basic_functions.reset_hp(stats)
             if basic_functions.check_game_over(stats):
                 exit()
             print("You fight bravely, but give your life for the citizens of Super Earth! Helldiver down! "
@@ -171,7 +175,7 @@ def launch_icbm(seconds, stats):
                       "Helldivers left! Continue the fight for liberty!")
             else:
                 time.sleep(1)
-                print("Fourteen seconds left! Ignition commencing! Keep those Terminids off of the console!"
+                print("Fourteen seconds left! Ignition commencing! Keep those Terminids off of the console! "
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
         elif seconds == 7:
             basic_functions.decrease_stats(stats)
@@ -185,17 +189,16 @@ def launch_icbm(seconds, stats):
                 time.sleep(1)
                 print("Seven seconds left! Protect that console with your life! "
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+            # roll a d6 to check if player is too close to the rocket launch
             if basic_functions.roll_d6() == 1:
                 basic_functions.lost_life(stats)
-                if basic_functions.check_game_over(stats):
-                    exit()
                 time.sleep(1)
-                if basic_functions.check_game_over(stats):
-                    exit()
                 print("You're too close to the blast radius! Back away, before you're burnt to a crisp- Ah, too late! "
                       "Helldiver down! Sending down reinforcements!\n"
                       f"Orbital has {stats['reinforcements']} Helldivers left!"
                       " Continue the fight for liberty!")
+                if basic_functions.check_game_over(stats):
+                    exit()
         elif seconds == 1:
             time.sleep(1)
             print("We have liftoff! Good work, Helldiver, eliminate the rest of those vermin and head to extraction!"
