@@ -60,6 +60,14 @@ def check_death(stats):
     return False
 
 
+def check_game_over(stats):
+    if stats['reinforcements'] == 0:
+        print("We are out of reinforcements! Mission failed, Orbiter departing!")
+        return True
+    else:
+        return False
+
+
 def decrease_stats(stats):
     stats['current_ammo'] -= ammo_loss()
     stats['current_hp'] -= hp_loss()
@@ -101,6 +109,8 @@ def normal_bug_spawn(stats):
         decrease_stats(stats)
         if death_prob(stats) == 1:
             lost_life(stats)
+            if check_game_over(stats):
+                exit()
             print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
                   f" Helldivers left! Continue the fight for liberty!")
             reset_hp(stats)
@@ -117,6 +127,8 @@ def normal_bug_spawn(stats):
         print("You decide to run like a dishonorable deserter, disappointing Freedom and Liberty both!")
         if death_prob(stats) == 1:
             lost_life(stats)
+            if check_game_over(stats):
+                exit()
             reset_hp(stats)
             time.sleep(1)
             print(f"The swarm of vermin gave chase and didn't relent, they caught you and killed you! "
@@ -139,6 +151,8 @@ def hive_spawn(stats):
                   "in the holes to shut the pests in when one of them crawls out just as you throw the grenade!"
                   " It bounces right off the giant insect's hard shell and flies back into your arms!")
             lost_life(stats)
+            if check_game_over(stats):
+                exit()
             reset_hp(stats)
             time.sleep(1)
             print(f"Helldiver down! Sending down reinforcements!\n"
@@ -159,6 +173,8 @@ def hive_spawn(stats):
                       f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
     else:
         if death_prob(stats) == 1:
+            if check_game_over(stats):
+                exit()
             lost_life(stats)
             reset_hp(stats)
             time.sleep(1)
@@ -177,6 +193,8 @@ def meteor_shower(stats):
     print("The skies turn dark, you look up and see a rain of meteors about to commence! Dodge, Helldiver!")
     time.sleep(2)
     if roll_d6() == 1:
+        if check_game_over(stats):
+            exit()
         lost_life(stats)
         reset_hp(stats)
         time.sleep(2)
@@ -203,6 +221,8 @@ def fire_tornadoes(stats):
             print("It's too late! Helldiver down! Sending down reinforcements!\n"
                   f"Orbital has {stats['reinforcements']} Helldivers left!")
             lost_life(stats)
+            if check_game_over(stats):
+                exit()
             reset_hp(stats)
         else:
             time.sleep(3)

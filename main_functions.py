@@ -4,7 +4,7 @@ import classes
 import weapons
 
 
-player_score = 0
+# player_score = 0
 
 
 def extraction(seconds, stats):
@@ -17,17 +17,21 @@ def extraction(seconds, stats):
         if seconds == 20:
             basic_functions.decrease_stats(stats)
             if basic_functions.check_death(stats):
-                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                if basic_functions.check_game_over(stats):
+                    exit()
+                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']} "
                       "Helldivers left! Continue the fight for liberty!")
             else:
-                print("Pelican shuttle touchdown in twenty seconds! Keep running, Helldiver!"
+                print("Pelican shuttle touchdown in twenty seconds! Keep running, Helldiver! "
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
                 basic_functions.health_bars(stats)
 
         elif seconds == 10:
             basic_functions.decrease_stats(stats)
             if basic_functions.check_death(stats):
-                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
+                if basic_functions.check_game_over(stats):
+                    exit()
+                print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']} "
                       "Helldivers left! Continue the fight for liberty!")
             else:
                 print("Ten seconds to landing, you're almost there!"
@@ -57,7 +61,11 @@ def rescue_operation(stats, civilian_status):
         # print(stats)
         if basic_functions.check_death(stats):
             basic_functions.lost_life(stats)
+            if basic_functions.check_game_over(stats):
+                exit()
             basic_functions.reset_hp(stats)
+            if basic_functions.check_game_over(stats):
+                exit()
             print("You fight bravely, but give your life for the citizens of Super Earth! Helldiver down! "
                   "Sending down reinforcements!\n"
                   f"Orbital has {stats['reinforcements']} Helldivers left!")
@@ -116,6 +124,8 @@ def fuel_icbm(fuel, stats):
         basic_functions.decrease_stats(stats)
         if basic_functions.check_death(stats):
             time.sleep(1)
+            if basic_functions.check_game_over(stats):
+                exit()
             print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
                   "Helldivers left! Continue the fight for liberty!")
         else:
@@ -130,6 +140,8 @@ def fuel_icbm(fuel, stats):
                 basic_functions.decrease_stats(stats)
                 if basic_functions.check_death(stats):
                     time.sleep(1)
+                    if basic_functions.check_game_over(stats):
+                        exit()
                     print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
                           "Helldivers left! Continue the fight for liberty!")
             elif fuel == 75:
@@ -153,6 +165,8 @@ def launch_icbm(seconds, stats):
             basic_functions.decrease_stats(stats)
             if basic_functions.check_death(stats):
                 time.sleep(1)
+                if basic_functions.check_game_over(stats):
+                    exit()
                 print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
                       "Helldivers left! Continue the fight for liberty!")
             else:
@@ -163,6 +177,8 @@ def launch_icbm(seconds, stats):
             basic_functions.decrease_stats(stats)
             if basic_functions.check_death(stats):
                 time.sleep(1)
+                if basic_functions.check_game_over(stats):
+                    exit()
                 print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
                       "Helldivers left! Continue the fight for liberty!")
             else:
@@ -171,7 +187,11 @@ def launch_icbm(seconds, stats):
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
             if basic_functions.roll_d6() == 1:
                 basic_functions.lost_life(stats)
+                if basic_functions.check_game_over(stats):
+                    exit()
                 time.sleep(1)
+                if basic_functions.check_game_over(stats):
+                    exit()
                 print("You're too close to the blast radius! Back away, before you're burnt to a crisp- Ah, too late! "
                       "Helldiver down! Sending down reinforcements!\n"
                       f"Orbital has {stats['reinforcements']} Helldivers left!"
