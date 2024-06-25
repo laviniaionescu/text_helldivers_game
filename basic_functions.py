@@ -151,7 +151,7 @@ def hive_spawn(stats):
         if grenade_bounce() == 1:
             time.sleep(1)
             print("You open fire on the hive, decimating the vermin protecting it! You begin tossing grenades "
-                  "in the holes to shut the pests in when one of them crawls out just as you throw the grenade!"
+                  "in the holes to shut the pests in \nwhen one of them crawls out just as you throw the grenade!"
                   " It bounces right off the giant insect's hard shell and flies back into your arms!")
             lost_life(stats)
             if check_game_over(stats):

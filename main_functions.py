@@ -10,6 +10,7 @@ import weapons
 def extraction(seconds, stats):
     time.sleep(2)
     print("Orbital shuttle deployed! Make your way to the extraction beacon, and keep the bugs off your back!")
+    time.sleep(2)
     # countdown
     while seconds != 1:
         seconds -= 1
@@ -235,8 +236,8 @@ def boss_fight(stats):
         player.attack(boss)
         boss.attack(player)
         print(f"{player.name} health left: {player.health}")
-        print(f"Health of {boss.name}: {boss.health}")
-        time.sleep(3)
+        print(f"Health of {boss.name}: {boss.health}\n*****")
+        time.sleep(4)
     if boss.health <= 0:
         time.sleep(2)
         print("The vile beast has been felled! Great job, Helldiver, that will put a dent in their plans! Now head to "
