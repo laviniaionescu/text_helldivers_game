@@ -1,3 +1,4 @@
+import json
 import random
 import time
 
@@ -265,3 +266,7 @@ def update_player_score(player_score):
     return player_score
 
 
+def write_player_score(player_name, player_score):
+    player_stats = {"Name": player_name, "Score": player_score}
+    with open("scores.jsonl", "a") as f:
+        f.write(json.dumps(player_stats, indent=4) + "\n")

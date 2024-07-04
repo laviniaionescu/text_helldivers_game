@@ -43,7 +43,6 @@ def extraction(seconds, stats):
                 print("Ten seconds to landing, you're almost there! "
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
         elif seconds == 1:
-            basic_functions.decrease_stats(stats)
             print("Shuttle touchdown commencing, keep away from the Pelican's landing thrusters!")
             time.sleep(1)
             print("Extraction successful! Mission accomplished, great job, Helldiver!")
@@ -89,6 +88,8 @@ def rescue_operation(stats, civilian_status):
     else:
         time.sleep(2)
         print("Objective complete, good work, Helldiver! Now head over to extraction!")
+        return "mission successful"
+
 
 
 # second mission
@@ -240,9 +241,9 @@ def boss_fight(stats):
         time.sleep(4)
     if boss.health <= 0:
         time.sleep(2)
-        print("The vile beast has been felled! Great job, Helldiver, that will put a dent in their plans! Now head to "
-              "extraction!")
-        time.sleep(1)
+        print("The vile beast has been felled! Great job, Helldiver, that will put a dent in their plans!\n"
+              "Dropping down the last medical field kit, heal up so you can make it to extraction, go!")
+        time.sleep(2)
         return "mission successful"
     else:
         time.sleep(1)
