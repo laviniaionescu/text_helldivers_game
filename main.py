@@ -56,7 +56,7 @@ if __name__ == '__main__':
         case 2:
             # run the 3 stages of the mission then write the score
             main_functions.generator_boot(20, generator_hp, stats)
-            main_functions.fuel_icbm(0, stats)
+            main_functions.fuel_icbm(stats)
             main_functions.launch_icbm(20, stats)
             player_score = basic_functions.update_player_score(player_score)
             player_score += 20
@@ -65,7 +65,7 @@ if __name__ == '__main__':
             exit()
 
         case 3:
-            boss_fight = main_functions.boss_fight(stats)
+            boss_fight = main_functions.boss_fight()
             if boss_fight == "mission successful":
                 # if mission is successful, update the score, go to extraction, write the score
                 player_score = basic_functions.update_player_score(player_score)

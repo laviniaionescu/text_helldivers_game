@@ -8,14 +8,14 @@ lost_health_symbol = "_"
 bars = 20
 
 
-def health_bars(stats):
+def health_bars(stats: dict) -> None:
     remaining_health_bars = round(stats['current_hp'] / stats['max_hp'] * bars)
     lost_health_bars = bars - remaining_health_bars
     print(f"HP remaining: {stats['current_hp']} / {stats['max_hp']}")
     print(f"|{remaining_health_bars * remaining_health_symbol} {lost_health_bars * lost_health_symbol}|")
 
 
-def get_player_name():
+def get_player_name() -> str:
     player_name = input("Welcome, Helldiver! Register your name to start today's operation: ")
     while len(player_name.strip()) < 2:
         player_name = input("Your name can't empty or be less than 2 letters! "
@@ -43,15 +43,15 @@ def hp_loss():
     return random.randint(0, 20)
 
 
-def reset_hp(stats):
+def reset_hp(stats: dict):
     stats['current_hp'] = 100
 
 
-def lost_life(stats):
+def lost_life(stats: dict):
     stats['reinforcements'] -= 1
 
 
-def check_death(stats):
+def check_death(stats: dict) -> bool:
     if stats['current_hp'] <= 0:
         stats['reinforcements'] -= 1
         stats['current_hp'] = 100
@@ -60,7 +60,7 @@ def check_death(stats):
     return False
 
 
-def check_game_over(stats):
+def check_game_over(stats: dict) -> bool:
     if stats['reinforcements'] == 0:
         print("We are out of reinforcements! Mission failed, Orbiter departing!")
         return True
@@ -68,13 +68,13 @@ def check_game_over(stats):
         return False
 
 
-def decrease_stats(stats):
+def decrease_stats(stats: dict):
     stats['current_ammo'] -= ammo_loss()
     stats['current_hp'] -= hp_loss()
     health_bars(stats)
 
 
-def death_prob(stats: dict):
+def death_prob(stats: dict) -> bool:
     if stats['current_hp'] < 50:
         prob = random.randint(1,5)
     else:
@@ -85,7 +85,7 @@ def death_prob(stats: dict):
         return False
 
 
-def event_roll():
+def event_roll() -> str:
     pick = random.randint(1, 4)
     if pick == 1:
         return "normal_bug_spawn"
@@ -97,7 +97,7 @@ def event_roll():
         return "fire_tornadoes"
 
 
-def normal_bug_spawn(stats):
+def normal_bug_spawn(stats: dict) -> None:
     # time.sleep(2)
     print("A swarm of Terminids crawl from the sand!")
     # time.sleep(2)
@@ -141,7 +141,7 @@ def normal_bug_spawn(stats):
                   " Continue the fight for liberty!")
 
 
-def hive_spawn(stats):
+def hive_spawn(stats: dict):
     time.sleep(1)
     print("What's that, you came across a Terminid hive! Do you eradicate them all, or proceed to the"
           " objective by using advanced stealth evasion tactics?")
@@ -192,7 +192,7 @@ def hive_spawn(stats):
                   " Helldiver who saves the world in this area!")
 
 
-def meteor_shower(stats):
+def meteor_shower(stats: dict):
     time.sleep(2)
     print("The skies turn dark, you look up and see a rain of meteors about to commence! Dodge, Helldiver!")
     time.sleep(2)
@@ -212,7 +212,7 @@ def meteor_shower(stats):
               "shower of boulders! Carry on, Helldiver!")
 
 
-def fire_tornadoes(stats):
+def fire_tornadoes(stats: dict):
     time.sleep(2)
     print("The skies turn red, you look up and see the twisting fires above connecting to the ones below! "
           "Avoid the fire tornadoes at all cost!")
@@ -236,23 +236,19 @@ def fire_tornadoes(stats):
         print(f"You've made it through! Carry on!")
 
 
-def grenade_bounce():
+def grenade_bounce() -> int:
     return random.randint(1, 5)
 
 
-# def coin_flip():
-#     return random.randint(1, 2)
-
-
-def coin_flip_samples():
+def coin_flip_samples() -> int:
     return random.randint(1, 2)
 
 
-def find_sample():
+def find_sample() -> str:
     return random.choice(['common', 'rare'])
 
 
-def update_player_score(player_score):
+def update_player_score(player_score: int) -> int:
     if coin_flip_samples() == 1:
         sample = find_sample()
         if sample == 'common':
@@ -266,7 +262,7 @@ def update_player_score(player_score):
     return player_score
 
 
-def write_player_score(player_name, player_score):
+def write_player_score(player_name: str, player_score: int):
     player_stats = {"Name": player_name, "Score": player_score}
     with open("scores.jsonl", "a") as f:
         f.write(json.dumps(player_stats, indent=4) + "\n")
