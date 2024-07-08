@@ -9,7 +9,6 @@ civilian_status = {"rescued": 0, "dead": 0}
 generator_hp = 100
 stats = {"reinforcements": 5, "current_hp": 100, "max_hp": 100, "current_ammo": 300}
 
-
 player_score = 0
 
 
@@ -44,42 +43,35 @@ if __name__ == '__main__':
     match mission_pick:
         case 1:
             rescue_civs = main_functions.rescue_operation(stats, civilian_status)
-            # if too many civs die, mission fails, exit
-            if rescue_civs == "mission failed":
-                exit()
-            else:
+            if rescue_civs == "mission successful":
                 # mission successful, update player score, run extraction, write player score
                 player_score = basic_functions.update_player_score(player_score)
                 player_score += 10
                 main_functions.extraction(30, stats)
-                player_stats = {"Name": player_name, "Score": player_score}
-                with open("scores.jsonl", "a") as f:
-                    f.write(json.dumps(player_stats, indent=4) + "\n")
+                basic_functions.write_player_score(player_name, player_score)
+                exit()
+            else:
                 exit()
 
         case 2:
             # run the 3 stages of the mission then write the score
             main_functions.generator_boot(20, generator_hp, stats)
-            main_functions.fuel_icbm(0, stats)
+            main_functions.fuel_icbm(stats)
             main_functions.launch_icbm(20, stats)
             player_score = basic_functions.update_player_score(player_score)
             player_score += 20
             main_functions.extraction(30, stats)
-            player_stats = {"Name": player_name, "Score": player_score}
-            with open("scores.jsonl", "a") as f:
-                f.write(json.dumps(player_stats, indent=4) + "\n")
+            basic_functions.write_player_score(player_name, player_score)
             exit()
 
         case 3:
-            boss_fight = main_functions.boss_fight(stats)
+            boss_fight = main_functions.boss_fight()
             if boss_fight == "mission successful":
                 # if mission is successful, update the score, go to extraction, write the score
                 player_score = basic_functions.update_player_score(player_score)
                 player_score += 30
                 main_functions.extraction(30, stats)
-                player_stats = {"Name": player_name, "Score": player_score}
-                with open("scores.jsonl", "a") as f:
-                    f.write(json.dumps(player_stats, indent=4) + "\n")
+                basic_functions.write_player_score(player_name, player_score)
                 exit()
             else:
                 # if mission failed, exit
