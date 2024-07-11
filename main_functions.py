@@ -1,11 +1,12 @@
+import json
+
 import basic_functions
 import time
 import classes
 import weapons
 
-
-# player_score = 0
-
+with open('mission_data.json', 'r') as file:
+    mission_data = json.load(file)
 
 def extraction(seconds: int, stats: dict):
     """Extraction with countdown where the player has to defend themselves until the time is up"""
@@ -59,6 +60,7 @@ def extraction(seconds: int, stats: dict):
 # first mission
 def rescue_operation(stats: dict, civilian_status: dict) -> str:
     """Rescue mission that fails if 3 or more civilians die during it"""
+
     time.sleep(2)
     print("We have civilians to rescue, Helldiver! Open the doors and escort them safely to the ship!")
     time.sleep(2)
@@ -94,7 +96,7 @@ def rescue_operation(stats: dict, civilian_status: dict) -> str:
 
 
 # second mission
-def generator_boot(seconds: int, generator_hp: int, stats: dict):
+def generator_boot(seconds: int, generator_hp: dict, stats: dict):
     """Part 1 of the second mission where the player has to defend a generator that loses HP"""
     time.sleep(2)
     print("The ICBM needs fuel, turn on that pump generator!")

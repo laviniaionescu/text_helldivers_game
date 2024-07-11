@@ -1,0 +1,14 @@
+{
+    "mission_type": [
+        "1. Rescue Operation",
+        "2. Launch ICBM",
+        "3. Exterminate Abomination"
+    ],
+
+    "civilian_status": {
+        "rescued": 0,
+        "dead": 0
+    },
+
+    "generator_hp": 100
+}
