@@ -9,6 +9,7 @@ bars = 20
 
 
 def health_bars(stats: dict) -> None:
+    """Displays HP visually"""
     remaining_health_bars = round(stats['current_hp'] / stats['max_hp'] * bars)
     lost_health_bars = bars - remaining_health_bars
     print(f"HP remaining: {stats['current_hp']} / {stats['max_hp']}")
@@ -16,6 +17,7 @@ def health_bars(stats: dict) -> None:
 
 
 def get_player_name() -> str:
+    """Sets player name"""
     player_name = input("Welcome, Helldiver! Register your name to start today's operation: ")
     while len(player_name.strip()) < 2:
         player_name = input("Your name can't empty or be less than 2 letters! "
@@ -23,35 +25,34 @@ def get_player_name() -> str:
     return player_name
 
 
-def roll_d100():
-    return random.randint(1, 100)
-
-
-def roll_d10():
-    return random.randint(1, 10)
-
 
 def roll_d6():
+    """Rolls a D6 dice"""
     return random.randint(1, 6)
 
 
 def ammo_loss():
+    """Decreases random amount of ammo"""
     return random.randint(5, 20)
 
 
 def hp_loss():
+    """Decreases random amount of HP"""
     return random.randint(0, 20)
 
 
 def reset_hp(stats: dict):
+    """Resets HP to full"""
     stats['current_hp'] = 100
 
 
 def lost_life(stats: dict):
+    """Decreases lives by 1"""
     stats['reinforcements'] -= 1
 
 
 def check_death(stats: dict) -> bool:
+    """Checks if player has died, if they did die, they lose a life, and HP and ammo are reset to max"""
     if stats['current_hp'] <= 0:
         stats['reinforcements'] -= 1
         stats['current_hp'] = 100
@@ -61,6 +62,7 @@ def check_death(stats: dict) -> bool:
 
 
 def check_game_over(stats: dict) -> bool:
+    """Checks if the player has no lives left, if they don't, it's game over"""
     if stats['reinforcements'] == 0:
         print("We are out of reinforcements! Mission failed, Orbiter departing!")
         return True
@@ -69,12 +71,15 @@ def check_game_over(stats: dict) -> bool:
 
 
 def decrease_stats(stats: dict):
+    """Decreases both ammo and HP by a random amount and displays the visual HP bar"""
     stats['current_ammo'] -= ammo_loss()
     stats['current_hp'] -= hp_loss()
     health_bars(stats)
 
 
 def death_prob(stats: dict) -> bool:
+    """Calculates the death probability in an event. If the player has less than 50 HP, the chance of dying is 1 in 5,
+    if they have more, it's 1 in 10"""
     if stats['current_hp'] < 50:
         prob = random.randint(1,5)
     else:
@@ -86,6 +91,7 @@ def death_prob(stats: dict) -> bool:
 
 
 def event_roll() -> str:
+    """Rolls an event out of 4 possible ones"""
     pick = random.randint(1, 4)
     if pick == 1:
         return "normal_bug_spawn"
@@ -98,6 +104,7 @@ def event_roll() -> str:
 
 
 def normal_bug_spawn(stats: dict) -> None:
+    """Spawns some simple enemies"""
     # time.sleep(2)
     print("A swarm of Terminids crawl from the sand!")
     # time.sleep(2)
@@ -142,6 +149,8 @@ def normal_bug_spawn(stats: dict) -> None:
 
 
 def hive_spawn(stats: dict):
+    """Spawns an enemy hive, where the player has to throw grenades to close the hive entrances, and a 1 in 5 chance
+    for the tossed grenade to bounce back and kill the player"""
     time.sleep(1)
     print("What's that, you came across a Terminid hive! Do you eradicate them all, or proceed to the"
           " objective by using advanced stealth evasion tactics?")
@@ -193,6 +202,7 @@ def hive_spawn(stats: dict):
 
 
 def meteor_shower(stats: dict):
+    """A meteor shower with a D6 chance to die"""
     time.sleep(2)
     print("The skies turn dark, you look up and see a rain of meteors about to commence! Dodge, Helldiver!")
     time.sleep(2)
@@ -213,6 +223,7 @@ def meteor_shower(stats: dict):
 
 
 def fire_tornadoes(stats: dict):
+    """A fire tornado that the player can get caught in. If they do, they have a chance to die if their HP is too low"""
     time.sleep(2)
     print("The skies turn red, you look up and see the twisting fires above connecting to the ones below! "
           "Avoid the fire tornadoes at all cost!")
@@ -237,18 +248,23 @@ def fire_tornadoes(stats: dict):
 
 
 def grenade_bounce() -> int:
+    """A 1 in 5 chance for the grenade to bounce back towards the player"""
     return random.randint(1, 5)
 
 
 def coin_flip_samples() -> int:
+    """A coin flip"""
     return random.randint(1, 2)
 
 
 def find_sample() -> str:
+    """Picks a common or rare sample like a coin flip"""
     return random.choice(['common', 'rare'])
 
 
 def update_player_score(player_score: int) -> int:
+    """If the coin flip is successful, it runs the find_sample function, and it adds to the score depending on what
+    kind of sample was found"""
     if coin_flip_samples() == 1:
         sample = find_sample()
         if sample == 'common':
@@ -263,6 +279,7 @@ def update_player_score(player_score: int) -> int:
 
 
 def write_player_score(player_name: str, player_score: int):
+    """Writes the player's name and score to the jsonl file"""
     player_stats = {"Name": player_name, "Score": player_score}
     with open("scores.jsonl", "a") as f:
         f.write(json.dumps(player_stats, indent=4) + "\n")

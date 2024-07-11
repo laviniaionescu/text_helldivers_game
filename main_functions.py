@@ -8,6 +8,7 @@ import weapons
 
 
 def extraction(seconds: int, stats: dict):
+    """Extraction with countdown where the player has to defend themselves until the time is up"""
     time.sleep(2)
     print("Orbital shuttle deployed! Make your way to the extraction beacon, and keep the bugs off your back!")
     time.sleep(2)
@@ -57,6 +58,7 @@ def extraction(seconds: int, stats: dict):
 
 # first mission
 def rescue_operation(stats: dict, civilian_status: dict) -> str:
+    """Rescue mission that fails if 3 or more civilians die during it"""
     time.sleep(2)
     print("We have civilians to rescue, Helldiver! Open the doors and escort them safely to the ship!")
     time.sleep(2)
@@ -93,6 +95,7 @@ def rescue_operation(stats: dict, civilian_status: dict) -> str:
 
 # second mission
 def generator_boot(seconds: int, generator_hp: int, stats: dict):
+    """Part 1 of the second mission where the player has to defend a generator that loses HP"""
     time.sleep(2)
     print("The ICBM needs fuel, turn on that pump generator!")
     time.sleep(2)
@@ -120,6 +123,7 @@ def generator_boot(seconds: int, generator_hp: int, stats: dict):
 
 
 def fuel_icbm(stats: dict):
+    """Part 2 of the second mission where the player fights the enemy while fuel is being pumped"""
     time.sleep(1)
     print("It's time to put it to good use! Start pumping that fuel to the missile, and destroy the remaining "
           "vermin!")
@@ -159,6 +163,7 @@ def fuel_icbm(stats: dict):
 
 
 def launch_icbm(seconds: int, stats: dict):
+    """Part 3 of the second mission where the player fights off the enemy and defends the console"""
     time.sleep(3)
     print("Launch codes operational! Hit the button, protect the console, and stay the hell away from the missile!")
     time.sleep(1)
@@ -212,6 +217,8 @@ boss = classes.Boss(name="The Bile Titan", health=100, weapon=weapons.titan_atta
 
 
 def boss_fight() -> str:
+    """Boss fight using classes where the player picks a weapon and a fight occurs until either the player or the boss
+    are out of HP"""
     time.sleep(2)
     print("There it is, the massive beast! Listen up, Helldiver! An emergency situation demanded we redirect your "
           "reinforcements towards an urgent side objective!")
