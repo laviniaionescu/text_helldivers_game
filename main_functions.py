@@ -4,8 +4,6 @@ import classes
 import weapons
 
 
-# player_score = 0
-
 
 def extraction(seconds: int, stats: dict):
     """Extraction with countdown where the player has to defend themselves until the time is up"""
@@ -17,6 +15,7 @@ def extraction(seconds: int, stats: dict):
         seconds -= 1
         time.sleep(1)
         print(seconds)
+
         if seconds == 20:
             # fight, lose hp and ammo
             basic_functions.decrease_stats(stats)
@@ -43,10 +42,10 @@ def extraction(seconds: int, stats: dict):
             else:
                 print("Ten seconds to landing, you're almost there! "
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+
         elif seconds == 1:
             print("Shuttle touchdown commencing, keep away from the Pelican's landing thrusters!")
             time.sleep(1)
-            print("Extraction successful! Mission accomplished, great job, Helldiver!")
 
             # chance to die by staying too close to the shuttle's thrusters, mission accomplished coz helldivers are
             # expendable
@@ -54,6 +53,8 @@ def extraction(seconds: int, stats: dict):
                 time.sleep(1)
                 print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
                       "Mission accomplished!")
+            else:
+                print("Extraction successful! Mission accomplished, great job, Helldiver!")
 
 
 # first mission
@@ -190,7 +191,7 @@ def launch_icbm(seconds: int, stats: dict):
                 if basic_functions.check_game_over(stats):
                     exit()
                 print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
-                      "Helldivers left! Continue the fight for liberty!")
+                      " Helldivers left! Continue the fight for liberty!")
             else:
                 time.sleep(1)
                 print("Seven seconds left! Protect that console with your life! "
@@ -198,6 +199,7 @@ def launch_icbm(seconds: int, stats: dict):
             # roll a d6 to check if player is too close to the rocket launch
             if basic_functions.roll_d6() == 1:
                 basic_functions.lost_life(stats)
+                basic_functions.reset_hp(stats)
                 time.sleep(1)
                 print("You're too close to the blast radius! Back away, before you're burnt to a crisp- Ah, too late! "
                       "Helldiver down! Sending down reinforcements!\n"
@@ -216,7 +218,7 @@ player = classes.Helldiver(name="Helldiver", health=100)
 boss = classes.Boss(name="The Bile Titan", health=100, weapon=weapons.titan_attack)
 
 
-def boss_fight() -> str:
+def boss_fight(stats) -> str:
     """Boss fight using classes where the player picks a weapon and a fight occurs until either the player or the boss
     are out of HP"""
     time.sleep(2)
@@ -248,7 +250,8 @@ def boss_fight() -> str:
     if boss.health <= 0:
         time.sleep(2)
         print("The vile beast has been felled! Great job, Helldiver, that will put a dent in their plans!\n"
-              "Dropping down the last medical field kit, heal up so you can make it to extraction, go!")
+              "Dropping down the last medical field kit and some ammo, heal up so you can make it to extraction, go!")
+        basic_functions.reset_hp(stats)
         time.sleep(2)
         return "mission successful"
     else:

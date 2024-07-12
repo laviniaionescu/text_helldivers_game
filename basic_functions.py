@@ -3,6 +3,18 @@ import random
 import time
 
 
+# add try and except
+def read_mission_data():
+    try:
+        with open("mission_data.json", "r") as f:
+            mission_data = json.loads(f.read())
+        return mission_data
+    except FileNotFoundError as e:
+        print(f"Cannot read mission data. File not found: {e}")
+    except json.JSONDecodeError as e:
+        print(f"Cannot read mission data. JSON decode error: {e}")
+
+
 remaining_health_symbol = "▒"
 lost_health_symbol = "_"
 bars = 20
@@ -25,7 +37,6 @@ def get_player_name() -> str:
     return player_name
 
 
-
 def roll_d6():
     """Rolls a D6 dice"""
     return random.randint(1, 6)
@@ -42,8 +53,9 @@ def hp_loss():
 
 
 def reset_hp(stats: dict):
-    """Resets HP to full"""
+    """Resets HP and ammo to full"""
     stats['current_hp'] = 100
+    stats['current_ammo'] = 300
 
 
 def lost_life(stats: dict):

@@ -1,15 +1,15 @@
-import json
 import time
 import basic_functions
 import main_functions
 
+mission_data = basic_functions.read_mission_data()
 
-mission_type = ["1. Rescue Operation", "2. Launch ICBM", "3. Exterminate Abomination"]
-civilian_status = {"rescued": 0, "dead": 0}
-generator_hp = 100
+mission_type = mission_data["mission_type"]
+civilian_status = mission_data['civilian_status']
+generator_hp = mission_data['generator_hp']
 stats = {"reinforcements": 5, "current_hp": 100, "max_hp": 100, "current_ammo": 300}
 
-player_score = 0
+player_score = mission_data['player_score']
 
 
 if __name__ == '__main__':
@@ -65,7 +65,7 @@ if __name__ == '__main__':
             exit()
 
         case 3:
-            boss_fight = main_functions.boss_fight()
+            boss_fight = main_functions.boss_fight(stats)
             if boss_fight == "mission successful":
                 # if mission is successful, update the score, go to extraction, write the score
                 player_score = basic_functions.update_player_score(player_score)
