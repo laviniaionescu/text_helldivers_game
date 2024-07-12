@@ -5,19 +5,24 @@ import time
 
 # add try and except
 def read_mission_data():
+    """Reads necessary info from mission_data json"""
     try:
-        with open("mission_data.json", "r") as f:
+        with open("mission_data.json", "r", encoding="utf-8") as f:
             mission_data = json.loads(f.read())
         return mission_data
     except FileNotFoundError as e:
         print(f"Cannot read mission data. File not found: {e}")
+        return None
     except json.JSONDecodeError as e:
         print(f"Cannot read mission data. JSON decode error: {e}")
+        return None
 
 
-remaining_health_symbol = "▒"
-lost_health_symbol = "_"
-bars = 20
+mission_data = read_mission_data()
+
+remaining_health_symbol = mission_data['remaining_health_symbol']
+lost_health_symbol = mission_data['lost_health_symbol']
+bars = mission_data['bars']
 
 
 def health_bars(stats: dict) -> None:

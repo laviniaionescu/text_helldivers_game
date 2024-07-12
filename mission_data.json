@@ -8,7 +8,16 @@
 
   "generator_hp": 100,
 
-  "player_score": 0
+  "player_score": 0,
+
+  "stats": {"reinforcements": 5,
+            "current_hp": 100,
+            "max_hp": 100,
+            "current_ammo": 300},
+
+  "remaining_health_symbol": "▒",
+  "lost_health_symbol": "_",
+  "bars": 20
 
 }
 

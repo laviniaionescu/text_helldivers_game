@@ -7,10 +7,9 @@ mission_data = basic_functions.read_mission_data()
 mission_type = mission_data["mission_type"]
 civilian_status = mission_data['civilian_status']
 generator_hp = mission_data['generator_hp']
-stats = {"reinforcements": 5, "current_hp": 100, "max_hp": 100, "current_ammo": 300}
+stats = mission_data['stats']
 
 player_score = mission_data['player_score']
-
 
 
 if __name__ == '__main__':
