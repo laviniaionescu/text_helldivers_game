@@ -4,10 +4,9 @@ import classes
 import weapons
 
 
-# player_score = 0
-
 
 def extraction(seconds: int, stats: dict):
+    """Extraction with countdown where the player has to defend themselves until the time is up"""
     time.sleep(2)
     print("Orbital shuttle deployed! Make your way to the extraction beacon, and keep the bugs off your back!")
     time.sleep(2)
@@ -16,6 +15,7 @@ def extraction(seconds: int, stats: dict):
         seconds -= 1
         time.sleep(1)
         print(seconds)
+
         if seconds == 20:
             # fight, lose hp and ammo
             basic_functions.decrease_stats(stats)
@@ -42,10 +42,10 @@ def extraction(seconds: int, stats: dict):
             else:
                 print("Ten seconds to landing, you're almost there! "
                       f"{stats['current_hp']} health and {stats['current_ammo']} ammo left!")
+
         elif seconds == 1:
             print("Shuttle touchdown commencing, keep away from the Pelican's landing thrusters!")
             time.sleep(1)
-            print("Extraction successful! Mission accomplished, great job, Helldiver!")
 
             # chance to die by staying too close to the shuttle's thrusters, mission accomplished coz helldivers are
             # expendable
@@ -53,10 +53,13 @@ def extraction(seconds: int, stats: dict):
                 time.sleep(1)
                 print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
                       "Mission accomplished!")
+            else:
+                print("Extraction successful! Mission accomplished, great job, Helldiver!")
 
 
 # first mission
 def rescue_operation(stats: dict, civilian_status: dict) -> str:
+    """Rescue mission that fails if 3 or more civilians die during it"""
     time.sleep(2)
     print("We have civilians to rescue, Helldiver! Open the doors and escort them safely to the ship!")
     time.sleep(2)
@@ -93,6 +96,7 @@ def rescue_operation(stats: dict, civilian_status: dict) -> str:
 
 # second mission
 def generator_boot(seconds: int, generator_hp: int, stats: dict):
+    """Part 1 of the second mission where the player has to defend a generator that loses HP"""
     time.sleep(2)
     print("The ICBM needs fuel, turn on that pump generator!")
     time.sleep(2)
@@ -120,6 +124,7 @@ def generator_boot(seconds: int, generator_hp: int, stats: dict):
 
 
 def fuel_icbm(stats: dict):
+    """Part 2 of the second mission where the player fights the enemy while fuel is being pumped"""
     time.sleep(1)
     print("It's time to put it to good use! Start pumping that fuel to the missile, and destroy the remaining "
           "vermin!")
@@ -159,6 +164,7 @@ def fuel_icbm(stats: dict):
 
 
 def launch_icbm(seconds: int, stats: dict):
+    """Part 3 of the second mission where the player fights off the enemy and defends the console"""
     time.sleep(3)
     print("Launch codes operational! Hit the button, protect the console, and stay the hell away from the missile!")
     time.sleep(1)
@@ -185,7 +191,7 @@ def launch_icbm(seconds: int, stats: dict):
                 if basic_functions.check_game_over(stats):
                     exit()
                 print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
-                      "Helldivers left! Continue the fight for liberty!")
+                      " Helldivers left! Continue the fight for liberty!")
             else:
                 time.sleep(1)
                 print("Seven seconds left! Protect that console with your life! "
@@ -193,6 +199,7 @@ def launch_icbm(seconds: int, stats: dict):
             # roll a d6 to check if player is too close to the rocket launch
             if basic_functions.roll_d6() == 1:
                 basic_functions.lost_life(stats)
+                basic_functions.reset_hp(stats)
                 time.sleep(1)
                 print("You're too close to the blast radius! Back away, before you're burnt to a crisp- Ah, too late! "
                       "Helldiver down! Sending down reinforcements!\n"
@@ -211,7 +218,9 @@ player = classes.Helldiver(name="Helldiver", health=100)
 boss = classes.Boss(name="The Bile Titan", health=100, weapon=weapons.titan_attack)
 
 
-def boss_fight() -> str:
+def boss_fight(stats) -> str:
+    """Boss fight using classes where the player picks a weapon and a fight occurs until either the player or the boss
+    are out of HP"""
     time.sleep(2)
     print("There it is, the massive beast! Listen up, Helldiver! An emergency situation demanded we redirect your "
           "reinforcements towards an urgent side objective!")
@@ -241,7 +250,8 @@ def boss_fight() -> str:
     if boss.health <= 0:
         time.sleep(2)
         print("The vile beast has been felled! Great job, Helldiver, that will put a dent in their plans!\n"
-              "Dropping down the last medical field kit, heal up so you can make it to extraction, go!")
+              "Dropping down the last medical field kit and some ammo, heal up so you can make it to extraction, go!")
+        basic_functions.reset_hp(stats)
         time.sleep(2)
         return "mission successful"
     else:
