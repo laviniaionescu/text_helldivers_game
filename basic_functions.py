@@ -25,6 +25,19 @@ lost_health_symbol = mission_data['lost_health_symbol']
 bars = mission_data['bars']
 
 
+def mission_choice_function(mission_type):
+    for mission in mission_type:
+        print(mission)
+    mission_pick = int(input("Press 1, 2 or 3: "))
+    # display mission options, stay in loop until player picks a valid mission option
+    while mission_pick not in [1, 2, 3]:
+        mission_pick = input("Press 1, 2 or 3: ")
+    else:
+        time.sleep(1)
+        print("You dropped in on the battlefield!")
+    return mission_pick
+
+
 def health_bars(stats: dict) -> None:
     """Displays HP visually"""
     remaining_health_bars = round(stats['current_hp'] / stats['max_hp'] * bars)
