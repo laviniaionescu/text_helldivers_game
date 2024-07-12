@@ -12,6 +12,7 @@ stats = {"reinforcements": 5, "current_hp": 100, "max_hp": 100, "current_ammo": 
 player_score = mission_data['player_score']
 
 
+
 if __name__ == '__main__':
     # get player name from function
     player_name = basic_functions.get_player_name()
