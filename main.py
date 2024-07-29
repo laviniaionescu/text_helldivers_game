@@ -17,11 +17,11 @@ if __name__ == '__main__':
     time.sleep(1)
 
     # choose mission
-    print(f"Helldiver {player_name}, choose in what way you want to save the world today! ")
+    print(f"Helldiver {player_name.strip()}, choose in what way you want to save the world today! ")
     mission_pick = basic_functions.mission_choice_function(mission_type)
 
     # roll and run a random event on the way to the mission
-    # missions.roll_event(stats)
+    missions.roll_event(stats)
 
     # run the selected mission
     match mission_pick:

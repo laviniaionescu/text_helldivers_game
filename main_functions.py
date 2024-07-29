@@ -50,7 +50,6 @@ def extraction(seconds: int, stats: dict):
             # chance to die by staying too close to the shuttle's thrusters, mission accomplished coz helldivers are
             # expendable
             if basic_functions.roll_d6() == 1:
-                time.sleep(3)
                 print("I said keep away from the shuttle's thrus- Helldiver down! But objective is completed!\n"
                       "Mission accomplished!")
             else:
@@ -231,10 +230,10 @@ def boss_fight(stats) -> str:
           "Orbital is sending down a medical supply package, as well as a weapon of your choice!")
     time.sleep(6)
     print("Heal up, and transmit what weapon you want to use against this fiend!")
-    player_choice = input(weapons.WEAPONS)
+    player_choice = input(weapons.WEAPONS).strip()
     while player_choice not in ["1", "2", "3"]:
         print("Pick a weapon, Helldiver!")
-        player_choice = input(weapons.WEAPONS)
+        player_choice = input(weapons.WEAPONS).strip()
     if player_choice == "1":
         player.equip(weapons.auto_cannon)
     elif player_choice == "2":

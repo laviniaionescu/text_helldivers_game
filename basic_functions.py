@@ -3,7 +3,6 @@ import random
 import time
 
 
-# add try and except
 def read_mission_data():
     """Reads necessary info from mission_data json"""
     try:
@@ -123,7 +122,7 @@ def death_prob(stats: dict) -> bool:
 
 def event_roll() -> str:
     """Rolls an event out of 4 possible ones"""
-    pick = random.randint(1, 1)
+    pick = random.randint(1, 4)
     if pick == 1:
         return "normal_bug_spawn"
     elif pick == 2:
@@ -141,10 +140,11 @@ def normal_bug_spawn(stats: dict) -> None:
     time.sleep(3)
     fight_flight = input("Do you bravely exterminate the vermin for liberty, "
                          "or run away like a coward deserter?\n"
-                         "Fight or flight? ")
-    while fight_flight.lower().strip() not in ("fight", "flight"):
+                         "Fight or flight? ").strip().lower()
+    while fight_flight not in ["fight", "flight"]:
         time.sleep(1)
-        fight_flight = input("This is not the time to freeze, Helldiver! Fight or flight!? ")
+        fight_flight = input("This is not the time to freeze, Helldiver! Fight or flight!? ").strip().lower()
+
     if fight_flight == "fight":
         time.sleep(1)
         print("You pull out your trusty rifle and proceed to dispense liberty to the freedom-hating Terminids!")
@@ -152,7 +152,7 @@ def normal_bug_spawn(stats: dict) -> None:
         time.sleep(3)
         print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
               f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
-    else:
+    elif fight_flight == "flight":
         time.sleep(1)
         print("You decide to run like a dishonorable deserter, disappointing Freedom and Liberty both!")
         if death_prob(stats) == 1:
@@ -174,9 +174,9 @@ def hive_spawn(stats: dict):
     time.sleep(3)
     print("What's that, you came across a Terminid hive! Do you eradicate them all, or proceed to the"
           " objective by using advanced stealth evasion tactics?")
-    kill_evade = input("Destroy, or evade? ")
+    kill_evade = input("Destroy, or evade? ").strip().lower()
     while kill_evade.lower().strip() not in ("destroy", "evade"):
-        kill_evade = input("Make a decision helldiver! Destroy the pests, or evade?")
+        kill_evade = input("Make a decision helldiver! Destroy the pests, or evade?").strip().lower()
     if kill_evade == "destroy":
         if grenade_bounce() == 1:
             time.sleep(1)
