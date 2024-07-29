@@ -26,16 +26,17 @@ bars = mission_data['bars']
 
 
 def mission_choice_function(mission_type):
+    """Displays the missions and allows player to pick one"""
     for mission in mission_type:
         print(mission)
-    mission_pick = int(input("Press 1, 2 or 3: "))
+    mission_pick = input("Press 1, 2 or 3: ")
     # display mission options, stay in loop until player picks a valid mission option
-    while mission_pick not in [1, 2, 3]:
-        mission_pick = input("Press 1, 2 or 3: ")
+    while mission_pick.strip() not in ["1", "2", "3"]:
+        mission_pick = input("Invalid choice. Press 1, 2 or 3: ")
     else:
         time.sleep(1)
         print("You dropped in on the battlefield!")
-    return mission_pick
+    return int(mission_pick)
 
 
 def health_bars(stats: dict) -> None:
@@ -111,9 +112,9 @@ def death_prob(stats: dict) -> bool:
     """Calculates the death probability in an event. If the player has less than 50 HP, the chance of dying is 1 in 5,
     if they have more, it's 1 in 10"""
     if stats['current_hp'] < 50:
-        prob = random.randint(1,5)
+        prob = random.randint(1, 5)
     else:
-        prob = random.randint(1,10)
+        prob = random.randint(1, 10)
     if prob == 1:
         return True
     else:
@@ -122,7 +123,7 @@ def death_prob(stats: dict) -> bool:
 
 def event_roll() -> str:
     """Rolls an event out of 4 possible ones"""
-    pick = random.randint(1, 4)
+    pick = random.randint(1, 1)
     if pick == 1:
         return "normal_bug_spawn"
     elif pick == 2:
@@ -135,34 +136,22 @@ def event_roll() -> str:
 
 def normal_bug_spawn(stats: dict) -> None:
     """Spawns some simple enemies"""
-    # time.sleep(2)
+    time.sleep(3)
     print("A swarm of Terminids crawl from the sand!")
-    # time.sleep(2)
+    time.sleep(3)
     fight_flight = input("Do you bravely exterminate the vermin for liberty, "
                          "or run away like a coward deserter?\n"
                          "Fight or flight? ")
-    while fight_flight.lower() not in ("fight", "flight"):
+    while fight_flight.lower().strip() not in ("fight", "flight"):
         time.sleep(1)
         fight_flight = input("This is not the time to freeze, Helldiver! Fight or flight!? ")
     if fight_flight == "fight":
         time.sleep(1)
         print("You pull out your trusty rifle and proceed to dispense liberty to the freedom-hating Terminids!")
         decrease_stats(stats)
-        if death_prob(stats) == 1:
-            lost_life(stats)
-            if check_game_over(stats):
-                exit()
-            print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
-                  f" Helldivers left! Continue the fight for liberty!")
-            reset_hp(stats)
-            decrease_stats(stats)
-            time.sleep(1)
-            print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
-                  f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
-        else:
-            time.sleep(1)
-            print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
-                  f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
+        time.sleep(3)
+        print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
+              f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
     else:
         time.sleep(1)
         print("You decide to run like a dishonorable deserter, disappointing Freedom and Liberty both!")
@@ -171,21 +160,22 @@ def normal_bug_spawn(stats: dict) -> None:
             if check_game_over(stats):
                 exit()
             reset_hp(stats)
-            time.sleep(1)
+            time.sleep(3)
             print(f"The swarm of vermin gave chase and didn't relent, they caught you and killed you! "
                   f"Helldiver down! Sending down reinforcements!\n"
                   f"Orbital has {stats['reinforcements']} Helldivers left!"
                   " Continue the fight for liberty!")
+            time.sleep(3)
 
 
 def hive_spawn(stats: dict):
     """Spawns an enemy hive, where the player has to throw grenades to close the hive entrances, and a 1 in 5 chance
     for the tossed grenade to bounce back and kill the player"""
-    time.sleep(1)
+    time.sleep(3)
     print("What's that, you came across a Terminid hive! Do you eradicate them all, or proceed to the"
           " objective by using advanced stealth evasion tactics?")
     kill_evade = input("Destroy, or evade? ")
-    while kill_evade.lower() not in ("destroy", "evade"):
+    while kill_evade.lower().strip() not in ("destroy", "evade"):
         kill_evade = input("Make a decision helldiver! Destroy the pests, or evade?")
     if kill_evade == "destroy":
         if grenade_bounce() == 1:
@@ -197,23 +187,25 @@ def hive_spawn(stats: dict):
             if check_game_over(stats):
                 exit()
             reset_hp(stats)
-            time.sleep(1)
             print(f"Helldiver down! Sending down reinforcements!\n"
-                  f"Orbital has {stats['reinforcements']} Helldivers left!"
+                  f"Orbital has {stats['reinforcements']} Helldivers left!\n"
                   "Tossing the last grenade in finishes the job and destroys the hive!")
+            time.sleep(15)
         else:
             time.sleep(1)
             print("You open fire on the hive, decimating the vermin protecting it, then tossing grenades in the"
                   " hive openings to shut the rest of them in! Hive destroyed!")
             decrease_stats(stats)
+            time.sleep(5)
             if check_death(stats):
-                time.sleep(1)
                 print(f"Helldiver down! Sending down reinforcements! Orbital has {stats['reinforcements']}"
                       "Helldivers left! Continue the fight for liberty!")
+                time.sleep(5)
             else:
                 time.sleep(1)
-                print(f"The battle is hard, but you fight for freedom and win! The alien scum left you with"
+                print(f"The battle is hard, but finish off the rest of the vermin! The alien scum left you with"
                       f" {stats['current_ammo']} ammunition and {stats['current_hp']} health.")
+                time.sleep(3)
     else:
         if death_prob(stats) == 1:
             if check_game_over(stats):
@@ -225,61 +217,66 @@ def hive_spawn(stats: dict):
                   " presence! You start emergency evasive maneuvers, but the faster ones catch up to you!\n"
                   "Helldiver down! Sending down reinforcements!\n"
                   f"Orbital has {stats['reinforcements']} Helldivers left!")
+            time.sleep(10)
         else:
             time.sleep(1)
             print("You let the vermin live another day, ensuring they'll be a deadly issue to the next unlucky"
                   " Helldiver who saves the world in this area!")
+            time.sleep(4)
 
 
 def meteor_shower(stats: dict):
     """A meteor shower with a D6 chance to die"""
-    time.sleep(2)
+    time.sleep(3)
     print("The skies turn dark, you look up and see a rain of meteors about to commence! Dodge, Helldiver!")
-    time.sleep(2)
+    time.sleep(5)
     if roll_d6() == 1:
         if check_game_over(stats):
             exit()
         lost_life(stats)
         reset_hp(stats)
-        time.sleep(2)
         print("Just as you thought the rock shower was about to end, one of the giant boulders lands right on"
               " top of you!\n"
               "Helldiver down! Sending down reinforcements!\n"
               f"Orbital has {stats['reinforcements']} Helldivers left!")
+        time.sleep(5)
     else:
-        time.sleep(2)
         print("Lady Liberty herself must've been watching over you, because you emerged in one piece through the "
               "shower of boulders! Carry on, Helldiver!")
+        time.sleep(5)
 
 
 def fire_tornadoes(stats: dict):
     """A fire tornado that the player can get caught in. If they do, they have a chance to die if their HP is too low"""
-    time.sleep(2)
+    time.sleep(3)
     print("The skies turn red, you look up and see the twisting fires above connecting to the ones below! "
           "Avoid the fire tornadoes at all cost!")
+    time.sleep(5)
     if roll_d6() == 1:
         hp_loss() * 2
-        time.sleep(2)
+        time.sleep(3)
         print("You've stumbled right into one of them! Drop and roll, Helldiver!")
         if death_prob(stats) == 1:
-            time.sleep(2)
-            print("It's too late! Helldiver down! Sending down reinforcements!\n"
-                  f"Orbital has {stats['reinforcements']} Helldivers left!")
+            time.sleep(5)
             lost_life(stats)
             if check_game_over(stats):
                 exit()
             reset_hp(stats)
+            print("It's too late! Helldiver down! Sending down reinforcements!\n"
+                  f"Orbital has {stats['reinforcements']} Helldivers left!")
+            time.sleep(5)
         else:
-            time.sleep(3)
+            time.sleep(5)
             print("Somehow, you've made it through! Carry on!")
+            time.sleep(5)
     else:
-        time.sleep(2)
+        time.sleep(3)
         print(f"You've made it through! Carry on!")
 
 
 def grenade_bounce() -> int:
     """A 1 in 5 chance for the grenade to bounce back towards the player"""
-    return random.randint(1, 5)
+    return random.randint(1, 4)
 
 
 def coin_flip_samples() -> int:
@@ -300,9 +297,11 @@ def update_player_score(player_score: int) -> int:
         if sample == 'common':
             player_score += 10
             print("Look at that, Helldiver, a common sample! Pick that up, we need it for research.")
+            time.sleep(4)
         elif sample == 'rare':
             player_score += 20
             print("Rare sample spotted! Pick that up right away!")
+            time.sleep(4)
     else:
         print("Looks like there are no samples here, shame, carry on.")
     return player_score
